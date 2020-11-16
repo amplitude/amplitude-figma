@@ -1,0 +1,32 @@
+{
+  "name": "@amplitude/figma",
+  "version": "1.0.0",
+  "keywords": [
+    "create-figma-plugin",
+    "figma",
+    "figma-plugin"
+  ],
+  "license": "MIT",
+  "author": "Kelvin Lu",
+  "dependencies": {
+    "@create-figma-plugin/ui": "0.0.80",
+    "@create-figma-plugin/utilities": "0.0.80",
+    "preact": "^10.5.7"
+  },
+  "devDependencies": {
+    "@create-figma-plugin/build": "0.0.80",
+    "@create-figma-plugin/tsconfig": "0.0.80",
+    "@figma/plugin-typings": "^1.16.1",
+    "eslint": "^7.13.0"
+  },
+  "scripts": {
+    "build": "build-figma-plugin",
+    "watch": "build-figma-plugin --watch"
+  },
+  "figma-plugin": {
+    "id": "amp-figma",
+    "name": "Amplitude Event Planner",
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx"
+  }
+}
