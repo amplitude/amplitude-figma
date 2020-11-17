@@ -3,6 +3,7 @@ import { h }  from 'preact'
 import { useState } from 'preact/hooks'
 
 import AddEvent from './views/AddEvent/AddEvent';
+import Settings from './views/Settings/Settings';
 
 enum Tab {
     ADD_EVENT = 'Create Event Label',
@@ -13,7 +14,7 @@ enum Tab {
 const TAB_OPTIONS =[
   {value: Tab.ADD_EVENT, view: <AddEvent />},
   {value: Tab.ALL_EVENTS, view: <AddEvent />}, // TODO - add a view
-  {value: Tab.SETTINGS, view: <AddEvent />} // TODO - add a view
+  {value: Tab.SETTINGS, view: <Settings />}
 ]
 
 function Plugin () {
