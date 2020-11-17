@@ -37,7 +37,6 @@ function AddEvent() {
       <VerticalSpace space='small' />
       <div style={{display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%'}}>
         <Button onClick={() => {
-          console.log('i got clicked!!!')
           emit(Message.ADD_EVENT);
         }}>Add Event</Button>
       </div>
