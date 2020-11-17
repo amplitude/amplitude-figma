@@ -2,10 +2,10 @@ import { render, Container, Tabs } from '@create-figma-plugin/ui'
 import { h }  from 'preact'
 import { useState } from 'preact/hooks'
 
-import AddEvent from './views/AddEvent';
+import AddEvent from './views/AddEvent/AddEvent';
 
 enum Tab {
-    ADD_EVENT = 'Add Event',
+    ADD_EVENT = 'Create Event Label',
     ALL_EVENTS = 'All Events',
     SETTINGS = 'Settings',
 }
@@ -17,7 +17,7 @@ const TAB_OPTIONS =[
 ]
 
 function Plugin () {
-  const [state, setState] = useState({ event: '', tab: 'Add Event' })
+  const [state, setState] = useState({ event: '', tab: Tab.ADD_EVENT })
 
 
   return (
