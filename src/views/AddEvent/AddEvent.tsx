@@ -1,22 +1,22 @@
 /** @jsx h */
-import { Divider, Button, Inline, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui'
-import { emit } from '@create-figma-plugin/utilities'
-import { h } from 'preact'
-import { useState, useEffect, useCallback } from 'preact/hooks'
+import { Divider, Button, Inline, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
+import { emit } from '@create-figma-plugin/utilities';
+import { h } from 'preact';
+import { useState, useEffect, useCallback } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { Message } from 'src/types/message';
 
 function AddEvent() {
-  const [state, setState] = useState<EventMetadata>({ name: '', description: '', notes: '' })
+  const [state, setState] = useState<EventMetadata>({ name: '', description: '', notes: '' });
   const onChange = useCallback((newState) => {
     setState((oldState) => {
       return {
         ...oldState,
         ...newState,
-      }
-    })
-  }, [])
+      };
+    });
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '80%' }}>
@@ -46,12 +46,12 @@ function AddEvent() {
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
         <Button onClick={() => {
           emit(Message.ADD_EVENT, { ...state });
-          setState({ name: '', description: '', notes: '' }) // reset state
+          setState({ name: '', description: '', notes: '' }); // reset state
         }}>Add Event</Button>
       </div>
       <VerticalSpace space='small' />
     </div>
-  )
+  );
 }
 
 export default AddEvent;

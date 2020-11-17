@@ -1,3 +1,6 @@
 {
-    "extends": ["preact", "@amplitude/eslint-config-typescript"]
+    "extends": ["preact", "@amplitude/eslint-config-typescript"],
+    "rules": {
+      "@typescript-eslint/semi": ["warn", "always"]
+   }
 }

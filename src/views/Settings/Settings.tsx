@@ -1,10 +1,10 @@
 /** @jsx h */
-import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui'
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
+import { h } from 'preact';
+import { useState } from 'preact/hooks';
 
 function AddEvent() {
-  const [state, setState] = useState({ apiKey: '', secretKey: '' })
+  const [state, setState] = useState({ apiKey: '', secretKey: '' });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -18,7 +18,7 @@ function AddEvent() {
       <Textbox name="description" onChange={setState} value={state.secretKey} />
       <VerticalSpace space='medium' />
     </div>
-  )
+  );
 }
 
 export default AddEvent;

@@ -1,6 +1,6 @@
-import { render, Container, Tabs } from '@create-figma-plugin/ui'
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { render, Container, Tabs } from '@create-figma-plugin/ui';
+import { h } from 'preact';
+import { useState } from 'preact/hooks';
 
 import AddEvent from './views/AddEvent/AddEvent';
 import Settings from './views/Settings/Settings';
@@ -15,10 +15,10 @@ const TAB_OPTIONS = [
   { value: Tab.ADD_EVENT, view: <AddEvent /> },
   { value: Tab.ALL_EVENTS, view: <AddEvent /> }, // TODO - add a view
   { value: Tab.SETTINGS, view: <Settings /> }
-]
+];
 
 function Plugin (props) {
-  const [state, setState] = useState({ tab: props.initialTab ?? Tab.ADD_EVENT })
+  const [state, setState] = useState({ tab: props.initialTab ?? Tab.ADD_EVENT });
 
   return (
     <Container space='medium'>
@@ -29,7 +29,7 @@ function Plugin (props) {
         value={state.tab}
       />
     </Container>
-  )
+  );
 }
 
-export default render(Plugin)
+export default render(Plugin);
