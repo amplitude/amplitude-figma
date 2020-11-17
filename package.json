@@ -14,15 +14,23 @@
     "preact": "^10.5.7"
   },
   "devDependencies": {
+    "@amplitude/eslint-config-typescript": "^1.1.0",
     "@create-figma-plugin/build": "0.0.80",
     "@create-figma-plugin/tsconfig": "0.0.80",
     "@figma/plugin-typings": "^1.16.1",
-    "eslint": "^7.13.0",
-    "eslint-config-preact": "^1.1.3"
+    "@typescript-eslint/eslint-plugin": "4",
+    "eslint": "7",
+    "eslint-config-preact": "^1.1.3",
+    "eslint-config-standard-with-typescript": "^19.0.1",
+    "eslint-plugin-import": "2",
+    "eslint-plugin-node": "11",
+    "eslint-plugin-promise": "4",
+    "eslint-plugin-standard": "4"
   },
   "scripts": {
     "build": "build-figma-plugin",
-    "watch": "build-figma-plugin --watch"
+    "watch": "build-figma-plugin --watch",
+    "lint": "eslint src/"
   },
   "figma-plugin": {
     "id": "amp-figma",
