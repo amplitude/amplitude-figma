@@ -1,7 +1,10 @@
 /** @jsx h */
 import { Divider, Button, Inline, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui'
+import { emit } from '@create-figma-plugin/utilities'
 import { h }  from 'preact'
 import { useState } from 'preact/hooks'
+
+import {Message} from '../../message';
 
 
 function AddEvent() {
@@ -33,7 +36,10 @@ function AddEvent() {
       <Divider/>
       <VerticalSpace space='small' />
       <div style={{display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%'}}>
-        <Button onClick={() => {}}>Add Event</Button>
+        <Button onClick={() => {
+          console.log('i got clicked!!!')
+          emit(Message.ADD_EVENT);
+        }}>Add Event</Button>
       </div>
       <VerticalSpace space='small' />
     </div>

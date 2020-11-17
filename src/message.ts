@@ -1,0 +1,7 @@
+export enum Message {
+    ADD_EVENT = 'ADD_EVENT',
+    API_KEY = 'API_KEY',
+    SECRET_KEY = 'SECRET_KEY',
+    EXPORT_CSV = 'EXPORT_CSV',
+    EXPORT_TAXONOMY = 'EXPORT_TAXONOMY',
+}

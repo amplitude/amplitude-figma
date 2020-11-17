@@ -17,8 +17,8 @@ const TAB_OPTIONS =[
   {value: Tab.SETTINGS, view: <Settings />}
 ]
 
-function Plugin () {
-  const [state, setState] = useState({ event: '', tab: Tab.ADD_EVENT })
+function Plugin (props) {
+  const [state, setState] = useState({ tab: props.initialTab ?? Tab.ADD_EVENT })
 
 
   return (
