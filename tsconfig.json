@@ -2,5 +2,6 @@
   "extends": "@create-figma-plugin/tsconfig",
   "compilerOptions": {
     "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
-  }
+  },
+  "rootDir": "."
 }
