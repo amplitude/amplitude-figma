@@ -4,7 +4,7 @@ import { Message } from 'src/types/message';
 import { EventMetadata } from 'src/types/event';
 
 export default function (): void {
-  const options = { width: 400, height: 400 };
+  const options = { width: 687, height: 725 };
   on(Message.ADD_EVENT, (event: EventMetadata) => {
     console.log(event);
   });
