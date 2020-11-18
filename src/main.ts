@@ -3,15 +3,6 @@ import { showUI, on } from '@create-figma-plugin/utilities';
 import { MOCK_EVENTS } from 'src/assets/mockEvents';
 import { Message } from 'src/types/message';
 import { EventMetadata } from 'src/types/event';
-import { Tab } from 'src/ui';
-
-async function loadInitialDataAndShowUI(initialTab: Tab = Tab.ADD_EVENT): Promise<void> {
-  const options = { width: 687, height: 725 };
-
-  const initialApiKey: string = (await figma.clientStorage.getAsync('API_KEY')) as string;
-  const initialSecretKey: string = (await figma.clientStorage.getAsync('SECRET_KEY')) as string;
-  showUI(options, { initialApiKey, initialSecretKey, initialTab, initialEvents: MOCK_EVENTS });
-}
 
 export default async function (): Promise<void> {
   on(Message.ADD_EVENT, (event: EventMetadata) => {
@@ -28,5 +19,9 @@ export default async function (): Promise<void> {
     figma.clientStorage.setAsync('SECRET_KEY', secretKey);
   });
 
-  await loadInitialDataAndShowUI();
+  const options = { width: 687, height: 725 };
+
+  const initialApiKey: string = (await figma.clientStorage.getAsync('API_KEY')) as string;
+  const initialSecretKey: string = (await figma.clientStorage.getAsync('SECRET_KEY')) as string;
+  showUI(options, { initialApiKey, initialSecretKey, initialEvents: MOCK_EVENTS });
 }
