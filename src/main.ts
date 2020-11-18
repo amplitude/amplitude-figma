@@ -6,7 +6,7 @@ import { EventMetadata } from 'src/types/event';
 import { Tab } from 'src/ui';
 
 async function loadInitialDataAndShowUI(initialTab: Tab = Tab.ADD_EVENT): Promise<void> {
-  const options = { width: 400, height: 400 };
+  const options = { width: 687, height: 725 };
 
   const initialApiKey: string = (await figma.clientStorage.getAsync('API_KEY')) as string;
   const initialSecretKey: string = (await figma.clientStorage.getAsync('SECRET_KEY')) as string;
