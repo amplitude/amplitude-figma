@@ -2,9 +2,9 @@ import { render, Container, Tabs } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
 import { useState, useMemo } from 'preact/hooks';
 
-import AddEvent from './views/AddEvent/AddEvent';
-import Settings from './views/Settings/Settings';
-import Tutorial from './views/Tutorial/Tutorial';
+import AddEvent from 'src/views/AddEvent/AddEvent';
+import Settings from 'src/views/Settings/Settings';
+import Tutorial from 'src/views/Tutorial/Tutorial';
 
 enum Tab {
   ADD_EVENT = 'Create Event Label',
