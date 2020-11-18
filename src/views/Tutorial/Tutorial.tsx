@@ -1,14 +1,11 @@
 /** @jsx h */
-import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
-import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { VerticalSpace } from '@create-figma-plugin/ui';
+import { h, JSX } from 'preact';
 import { AmplitudeLogo } from 'src/assets/amplitudeLogo';
 
-function AddEvent() {
-  const [state, setState] = useState({ apiKey: '', secretKey: '' });
-
+function AddEvent(): JSX.Element {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <VerticalSpace space='medium' />
       <AmplitudeLogo />
       {/* <Text bold>API Key</Text>
