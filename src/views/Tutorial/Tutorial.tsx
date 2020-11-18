@@ -1,12 +1,9 @@
 /** @jsx h */
 import { VerticalSpace, Text, Divider } from '@create-figma-plugin/ui'
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { h, JSX } from 'preact';
 import { AmplitudeLogo } from 'src/assets/amplitudeLogo'
 
-function AddEvent() {
-  const [state, setState] = useState({ apiKey: '', secretKey: '' })
-
+function AddEvent(): JSX.Element {
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -44,7 +41,7 @@ function AddEvent() {
         <img src="https://i.ibb.co/zbvtBy0/Datamonster.jpg" />
       </div>
     </div>
-  )
+  );
 }
 
 export default AddEvent;

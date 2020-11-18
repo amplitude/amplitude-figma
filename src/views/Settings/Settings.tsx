@@ -39,11 +39,11 @@ function AddEvent({ initialApiKey, initialSecretKey }: Props): JSX.Element {
       <VerticalSpace space='medium' />
       <Text bold>API Key</Text>
       <VerticalSpace space='extraSmall' />
-      <Textbox name="event" onChange={onChange} value={state.apiKey} />
+      <Textbox name="apiKey" onChange={onChange} value={state.apiKey} />
       <VerticalSpace space='medium' />
       <Text bold>Secret Key </Text>
       <VerticalSpace space='extraSmall' />
-      <Textbox name="description" onChange={onChange} value={state.secretKey} />
+      <Textbox name="secretKey" onChange={onChange} value={state.secretKey} />
       <VerticalSpace space='medium' />
     </div>
   );
