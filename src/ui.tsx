@@ -4,17 +4,20 @@ import { useState } from 'preact/hooks';
 
 import AddEvent from './views/AddEvent/AddEvent';
 import Settings from './views/Settings/Settings';
+import Tutorial from './views/Tutorial/Tutorial';
 
 enum Tab {
   ADD_EVENT = 'Create Event Label',
   ALL_EVENTS = 'All Events',
   SETTINGS = 'Settings',
+  TUTORIAL = 'Tutorial',
 }
 
 const TAB_OPTIONS = [
   { value: Tab.ADD_EVENT, view: <AddEvent /> },
   { value: Tab.ALL_EVENTS, view: <AddEvent /> }, // TODO - add a view
-  { value: Tab.SETTINGS, view: <Settings initialApiKey='' initialSecretKey='' /> }
+  { value: Tab.SETTINGS, view: <Settings initialApiKey='' initialSecretKey='' /> },
+  { value: Tab.TUTORIAL, view: <Tutorial /> }
 ];
 
 interface Props {
