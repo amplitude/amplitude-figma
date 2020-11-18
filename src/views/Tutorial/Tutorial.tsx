@@ -1,12 +1,12 @@
 /** @jsx h */
-import { VerticalSpace, Text, Divider } from '@create-figma-plugin/ui'
+import { VerticalSpace, Text, Divider } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
-import { AmplitudeLogo } from 'src/assets/amplitudeLogo'
+import { AmplitudeLogo } from 'src/assets/amplitudeLogo';
 
 function AddEvent(): JSX.Element {
   return (
-    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <VerticalSpace space='large' />
         <AmplitudeLogo />
         <VerticalSpace space='medium' />
@@ -17,7 +17,7 @@ function AddEvent(): JSX.Element {
         <Divider />
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'column'}}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <VerticalSpace space='large' />
         <Text bold>Create Event Label</Text>
         <VerticalSpace space='medium' />
@@ -26,7 +26,7 @@ function AddEvent(): JSX.Element {
         <Text>Note: Figma users with “viewer” permission are unable to edit the visibility of layers, so if your developers will only have viewer permission, you might want to duplicate your Figma page with one page having the Event Label layer visible and one without.</Text>
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'column'}}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <VerticalSpace space='large' />
         <Text bold>Export Events</Text>
         <VerticalSpace space='medium' />
@@ -35,7 +35,7 @@ function AddEvent(): JSX.Element {
         <Text>Note: Only Orgs with the Taxonomy Add-on can export events to Amplitude’s Schema Planner. Enter your api and secret keys in Settings to check if your Org has the add-on.</Text>
       </div>
 
-      <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <VerticalSpace space='large' />
         <VerticalSpace space='large' />
         <img src="https://i.ibb.co/zbvtBy0/Datamonster.jpg" />
