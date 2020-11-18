@@ -1,16 +1,16 @@
 /** @jsx h */
 import { Divider, Button, Inline, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
-import { h } from 'preact';
-import { useState, useEffect, useCallback } from 'preact/hooks';
+import { h, JSX } from 'preact';
+import { useState, useCallback } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { Message } from 'src/types/message';
 
-function AddEvent() {
-  const [state, setState] = useState<EventMetadata>({ name: '', description: '', notes: '' });
-  const onChange = useCallback((newState) => {
-    setState((oldState) => {
+function AddEvent(): JSX.Element {
+  const [state, setState] = useState({ name: '', description: '', notes: '' });
+  const onChange = useCallback((newState: Partial<EventMetadata>) => {
+    setState((oldState: EventMetadata): EventMetadata => {
       return {
         ...oldState,
         ...newState,

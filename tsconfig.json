@@ -1,7 +1,11 @@
+// NOTE(Kelvin): I don't think create-figma-plugin actually consumes this.
+// This is more of a thing for eslint to not yell at us
 {
   "extends": "@create-figma-plugin/tsconfig",
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"]
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
+    "strictNullChecks": true
   },
   "rootDir": "."
 }

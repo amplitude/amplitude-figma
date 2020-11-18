@@ -1,5 +1,5 @@
 import { render, Container, Tabs } from '@create-figma-plugin/ui';
-import { h } from 'preact';
+import { h, JSX } from 'preact';
 import { useState } from 'preact/hooks';
 
 import AddEvent from './views/AddEvent/AddEvent';
@@ -14,11 +14,19 @@ enum Tab {
 const TAB_OPTIONS = [
   { value: Tab.ADD_EVENT, view: <AddEvent /> },
   { value: Tab.ALL_EVENTS, view: <AddEvent /> }, // TODO - add a view
-  { value: Tab.SETTINGS, view: <Settings /> }
+  { value: Tab.SETTINGS, view: <Settings initialApiKey='' initialSecretKey='' /> }
 ];
 
-function Plugin (props) {
-  const [state, setState] = useState({ tab: props.initialTab ?? Tab.ADD_EVENT });
+interface Props {
+  initialTab?: Tab;
+}
+
+interface State {
+  tab: Tab;
+}
+
+function Plugin ({ initialTab }: Props): JSX.Element {
+  const [state, setState] = useState<State>({ tab: initialTab ?? Tab.ADD_EVENT });
 
   return (
     <Container space='medium'>
