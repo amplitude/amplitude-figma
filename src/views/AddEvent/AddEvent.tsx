@@ -7,8 +7,15 @@ import { useState, useCallback } from 'preact/hooks';
 import { EventMetadata } from 'src/types/event';
 import { Message } from 'src/types/message';
 
-function AddEvent(): JSX.Element {
-  const [state, setState] = useState({ name: '', description: '', notes: '' });
+export interface Props {
+  onAddEvent: (event: EventMetadata) => void;
+}
+
+const INITIAL_STATE = { name: '', description: '', notes: '' };
+
+function AddEvent({ onAddEvent }: Props): JSX.Element {
+  const [state, setState] = useState(INITIAL_STATE);
+
   const onChange = useCallback((newState: Partial<EventMetadata>) => {
     setState((oldState: EventMetadata): EventMetadata => {
       return {
@@ -17,6 +24,13 @@ function AddEvent(): JSX.Element {
       };
     });
   }, []);
+
+  const onClickAdd = (): void => {
+    const event = { ...state };
+    emit(Message.ADD_EVENT, event);
+    onAddEvent(event);
+    setState(INITIAL_STATE); // reset state
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '80%' }}>
@@ -44,10 +58,7 @@ function AddEvent(): JSX.Element {
       <Divider />
       <VerticalSpace space='small' />
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
-        <Button onClick={() => {
-          emit(Message.ADD_EVENT, { ...state });
-          setState({ name: '', description: '', notes: '' }); // reset state
-        }}>Add Event</Button>
+        <Button onClick={onClickAdd}>Add Event</Button>
       </div>
       <VerticalSpace space='small' />
     </div>
