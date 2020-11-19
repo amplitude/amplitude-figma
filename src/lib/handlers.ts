@@ -32,6 +32,7 @@ export function attachHandlers(): void {
     } else if (figma.currentPage.selection.length > 1) {
       figma.notify('Please group multiple elements into a single frame');
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       createLabel(event);
     }
   });
