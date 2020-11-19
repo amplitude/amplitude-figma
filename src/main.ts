@@ -10,7 +10,7 @@ interface UIOption {
   height: number
 }
 
-const REGULAR_SIZE: UIOption = { width: 400, height: 400 };
+const REGULAR_SIZE: UIOption = { width: 687, height: 400 };
 const TUTORIAL_SIZE: UIOption = { width: 687, height: 725 };
 
 const TAB_OPTIONS: { [key in Tab]: UIOption} = {
