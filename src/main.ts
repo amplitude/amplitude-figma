@@ -32,7 +32,6 @@ export default async function (): Promise<void> {
       figma.notify('Please group multiple elements into a single frame');
     } else {
       createLabel(event);
-      saveEvent(event);
     }
   });
 
