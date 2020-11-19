@@ -1,24 +1,9 @@
-import { showUI, on } from '@create-figma-plugin/utilities';
 
-import { Tab } from 'src/types/tab';
-import { MOCK_EVENTS } from 'src/assets/mockEvents';
-import { Message } from 'src/types/message';
+import { on } from '@create-figma-plugin/utilities';
+
 import { EventMetadata } from 'src/types/event';
-
-interface UIOption {
-  width: number,
-  height: number
-}
-
-const REGULAR_SIZE: UIOption = { width: 687, height: 400 };
-const TUTORIAL_SIZE: UIOption = { width: 687, height: 725 };
-
-const TAB_OPTIONS: { [key in Tab]: UIOption} = {
-  [Tab.ADD_EVENT]: REGULAR_SIZE,
-  [Tab.ALL_EVENTS]: REGULAR_SIZE,
-  [Tab.SETTINGS]: REGULAR_SIZE,
-  [Tab.TUTORIAL]: TUTORIAL_SIZE,
-};
+import { Message } from 'src/types/message';
+import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
 function createLabel(event: EventMetadata): void {
   console.log(event);
@@ -40,7 +25,7 @@ function createLabel(event: EventMetadata): void {
   }).catch(() => console.error('problem loading font'));
 }
 
-export default async function (): Promise<void> {
+export function attachHandlers(): void {
   on(Message.ADD_EVENT, (event: EventMetadata) => {
     if (figma.currentPage.selection.length === 0) {
       figma.notify('Please select an element');
@@ -69,8 +54,4 @@ export default async function (): Promise<void> {
       figma.ui.resize(nextOptions.width, nextOptions.height);
     }
   });
-
-  const initialApiKey: string = (await figma.clientStorage.getAsync('API_KEY')) as string;
-  const initialSecretKey: string = (await figma.clientStorage.getAsync('SECRET_KEY')) as string;
-  showUI(REGULAR_SIZE, { initialApiKey, initialSecretKey, initialEvents: MOCK_EVENTS });
 }

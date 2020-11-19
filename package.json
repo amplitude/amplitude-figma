@@ -37,8 +37,28 @@
   "figma-plugin": {
     "id": "amp-figma",
     "name": "Amplitude Event Planner",
-    "main": "src/main.ts",
-    "ui": "src/ui.tsx"
+    "menu": [
+      {
+        "name": "Create Event Label",
+        "main": "src/entries/addEvent.ts",
+        "ui": "src/ui.tsx"
+      },
+      {
+        "name": "View or Export Events",
+        "main": "src/entries/allEvents.ts",
+        "ui": "src/ui.tsx"
+      },
+      {
+        "name": "Settings",
+        "main": "src/entries/settings.ts",
+        "ui": "src/ui.tsx"
+      },
+      {
+        "name": "Tutorial",
+        "main": "src/entries/tutorial.ts",
+        "ui": "src/ui.tsx"
+      }
+    ]
   },
   "husky": {
     "hooks": {
