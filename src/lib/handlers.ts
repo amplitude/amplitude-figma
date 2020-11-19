@@ -53,6 +53,13 @@ function createDetailFrame(title: string, data: string): FrameNode {
   return container;
 }
 
+function createDivider(): LineNode {
+  const blue = createFillsColor(0.77647, 0.81569, 0.85098);
+  const divider = figma.createLine();
+  divider.strokes = blue;
+  return divider;
+}
+
 /**
  * Creates event label and adds it to the page
  * @param event event that label represents
@@ -90,12 +97,13 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   const description = createDetailFrame('Description', event.description);
   description.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
 
-  const notes = createDetailFrame('Dev Note', event.notes);
+  const notes = createDetailFrame('Dev Notes', event.notes);
   notes.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
 
   container.appendChild(nameContainer);
   container.appendChild(trigger);
   container.appendChild(description);
+  container.appendChild(createDivider());
   container.appendChild(notes);
 
   // Store label with event data and associated client node id
