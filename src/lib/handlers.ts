@@ -49,6 +49,12 @@ function createDetailFrame(title: string, data: string): FrameNode {
   container.layoutMode = 'VERTICAL';
   container.name = `${title} group`;
   container.itemSpacing = 4;
+
+  // Lets content stretch to fill parent container
+  container.layoutAlign = 'STRETCH';
+  titleTextNode.layoutAlign = 'STRETCH';
+  dataTextNode.layoutAlign = 'STRETCH';
+
   container.appendChild(titleTextNode);
   container.appendChild(dataTextNode);
   return container;
@@ -58,6 +64,7 @@ function createDivider(): LineNode {
   const blue = createPaint(0.77647, 0.81569, 0.85098);
   const divider = figma.createLine();
   divider.strokes = blue;
+  divider.layoutAlign = 'STRETCH';
   return divider;
 }
 
