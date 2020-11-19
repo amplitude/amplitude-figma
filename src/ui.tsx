@@ -1,30 +1,23 @@
 import { render, Container, Tabs } from '@create-figma-plugin/ui';
+import { emit } from '@create-figma-plugin/utilities';
+
 import { h, JSX } from 'preact';
 import { useCallback, useMemo, useState } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
+import { Message } from 'src/types/message';
+import { Tab } from 'src/types/tab';
 
 import AddEvent from 'src/views/AddEvent/AddEvent';
 import AllEvents from 'src/views/AllEvents/AllEvents';
 import Settings from 'src/views/Settings/Settings';
 import Tutorial from 'src/views/Tutorial/Tutorial';
 
-export enum Tab {
-  ADD_EVENT = 'Create Event Label',
-  ALL_EVENTS = 'All Events',
-  SETTINGS = 'Settings',
-  TUTORIAL = 'Tutorial',
-}
-
 interface Props {
   initialTab?: Tab;
   initialEvents?: EventMetadata[];
   initialApiKey?: string;
   initialSecretKey?: string;
-}
-
-interface State {
-  tab: Tab;
 }
 
 function Plugin (props: Props): JSX.Element {
@@ -34,12 +27,19 @@ function Plugin (props: Props): JSX.Element {
     initialApiKey = '',
     initialSecretKey = ''
   } = props;
-  const [state, setState] = useState<State>({ tab: initialTab });
+  const [tab, setTab] = useState<Tab>(initialTab);
   const [events, setEvents] = useState<EventMetadata[]>(initialEvents);
 
   const onAddEvent = useCallback((newEvent: EventMetadata) => {
     setEvents((oldEvents) => [...oldEvents, newEvent]);
   }, []);
+
+  const onTabChange = useCallback(({ tab: newTab }: {tab: Tab}) => {
+    if (newTab !== tab) {
+      emit(Message.CHANGE_TAB, tab, newTab);
+      setTab(newTab);
+    }
+  }, [tab]);
 
   const tabOptions = useMemo(() => {
     return [
@@ -54,9 +54,9 @@ function Plugin (props: Props): JSX.Element {
     <Container space='medium'>
       <Tabs
         name="tab"
-        onChange={setState}
+        onChange={onTabChange}
         options={tabOptions}
-        value={state.tab}
+        value={tab}
       />
     </Container>
   );

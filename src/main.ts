@@ -1,8 +1,24 @@
 import { showUI, on } from '@create-figma-plugin/utilities';
 
+import { Tab } from 'src/types/tab';
 import { MOCK_EVENTS } from 'src/assets/mockEvents';
 import { Message } from 'src/types/message';
 import { EventMetadata } from 'src/types/event';
+
+interface UIOption {
+  width: number,
+  height: number
+}
+
+const REGULAR_SIZE: UIOption = { width: 400, height: 400 };
+const TUTORIAL_SIZE: UIOption = { width: 687, height: 725 };
+
+const TAB_OPTIONS: { [key in Tab]: UIOption} = {
+  [Tab.ADD_EVENT]: REGULAR_SIZE,
+  [Tab.ALL_EVENTS]: REGULAR_SIZE,
+  [Tab.SETTINGS]: REGULAR_SIZE,
+  [Tab.TUTORIAL]: TUTORIAL_SIZE,
+};
 
 function createLabel(event: EventMetadata): void {
   console.log(event);
@@ -45,9 +61,16 @@ export default async function (): Promise<void> {
     figma.clientStorage.setAsync('SECRET_KEY', secretKey);
   });
 
-  const options = { width: 687, height: 725 };
+  on(Message.CHANGE_TAB, (previousTab: Tab, nextTab: Tab) => {
+    const previousOptions = TAB_OPTIONS[previousTab];
+    const nextOptions = TAB_OPTIONS[nextTab];
+
+    if (previousOptions !== nextOptions) {
+      figma.ui.resize(nextOptions.width, nextOptions.height);
+    }
+  });
 
   const initialApiKey: string = (await figma.clientStorage.getAsync('API_KEY')) as string;
   const initialSecretKey: string = (await figma.clientStorage.getAsync('SECRET_KEY')) as string;
-  showUI(options, { initialApiKey, initialSecretKey, initialEvents: MOCK_EVENTS });
+  showUI(REGULAR_SIZE, { initialApiKey, initialSecretKey, initialEvents: MOCK_EVENTS });
 }
