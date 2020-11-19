@@ -4,6 +4,7 @@ import { h, JSX } from 'preact';
 
 import { EventMetadata } from 'src/types/event';
 import { CsvDataService } from 'src/services/csv.service';
+import { ApiService } from 'src/services/api.service';
 
 export interface Props {
   events: EventMetadata[];
@@ -29,7 +30,9 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
 
 function AllEvents({ events }: Props): JSX.Element {
   const onClickCsvExport = (): void => {
-    CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
+    // CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
+
+    ApiService.createEventType("9862ba8f60bb7b9c97adec8dd88d0153", "cf582a1547675a7bc806907994a48e09", "hack type", "hack desc")
   };
 
   return (
