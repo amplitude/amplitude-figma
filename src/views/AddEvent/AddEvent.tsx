@@ -1,9 +1,10 @@
 /** @jsx h */
-import { Divider, Button, Inline, moveDownIcon, VerticalSpace, Text, Textbox, DropdownMenu } from '@create-figma-plugin/ui';
+import { Divider, Button, Inline, VerticalSpace, Text, Textbox, DropdownMenu } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useState, useCallback } from 'preact/hooks';
 
+import { CaretDown } from 'src/assets/CaretDown';
 import { EventMetadata, Trigger } from 'src/types/event';
 import { Message } from 'src/types/message';
 
@@ -49,10 +50,11 @@ function AddEvent({ onAddEvent }: Props): JSX.Element {
         <Text bold>Event Trigger</Text>
         <VerticalSpace space='extraSmall' />
         <DropdownMenu name="trigger" onChange={onChange} options={TRIGGER_OPTIONS} value={state.trigger}>
-          <Button secondary onClick={noop}>
+          <Button secondary onClick={noop} style={{ borderRadius: '3px' }}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               {state.trigger}
-              {moveDownIcon}
+              <div style={{ width: '6px' }} />
+              <CaretDown />
             </div>
           </Button>
         </DropdownMenu>

@@ -1,6 +1,4 @@
-import { MOCK_EVENTS } from 'src/assets/mockEvents';
-
-import { EventMetadata } from 'src/types/event';
+import { EventMetadata, MOCK_EVENTS } from 'src/types/event';
 
 export interface InitialData {
   initialApiKey: string;

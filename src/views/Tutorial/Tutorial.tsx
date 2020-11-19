@@ -1,9 +1,9 @@
 /** @jsx h */
 import { VerticalSpace, Text, Divider } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
-import { AmplitudeLogo } from 'src/assets/amplitudeLogo';
+import { AmplitudeLogo } from 'src/assets/AmplitudeLogo';
 
-function AddEvent(): JSX.Element {
+function Tutorial(): JSX.Element {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -44,4 +44,4 @@ function AddEvent(): JSX.Element {
   );
 }
 
-export default AddEvent;
+export default Tutorial;

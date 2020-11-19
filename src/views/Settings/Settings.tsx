@@ -4,6 +4,7 @@ import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useState, useCallback } from 'preact/hooks';
 
+import { InfoIcon } from 'src/assets/InfoIcon';
 import { Message } from 'src/types/message';
 
 export interface Props {
@@ -16,7 +17,7 @@ export interface State {
   secretKey: string;
 }
 
-function AddEvent({ initialApiKey, initialSecretKey }: Props): JSX.Element {
+function Settings({ initialApiKey, initialSecretKey }: Props): JSX.Element {
   const [state, setState] = useState({ apiKey: initialApiKey, secretKey: initialSecretKey });
   const onChange = useCallback((newState: Partial<State>) => {
     if ('apiKey' in newState) {
@@ -45,11 +46,18 @@ function AddEvent({ initialApiKey, initialSecretKey }: Props): JSX.Element {
       <VerticalSpace space='extraSmall' />
       <Textbox name="secretKey" onChange={onChange} value={state.secretKey} />
       <div style={{ height: '100px' }} />
-      <a href="https://help.amplitude.com/hc/articles/235649848-Settings#h_01EHZSMMDAXC77MH5K65DKZSHF" target="_blank" rel="noreferrer">
-        <Text style={{ color: '#007FD2', textDecoration: 'underline #007FD2' }}>How can I find the API and Secret Keys?</Text>
+      <a
+        href="https://help.amplitude.com/hc/articles/235649848-Settings#h_01EHZSMMDAXC77MH5K65DKZSHF"
+        target="_blank"
+        rel="noreferrer"
+        style={{ display: 'flex', fill: '#007FD2', alignItems: 'center' }}
+      >
+        <InfoIcon />
+        <div style={{ width: '4px' }} />
+        <Text style={{ textDecoration: 'underline #007FD2', color: '#007FD2' }}>How can I find the API and Secret Keys?</Text>
       </a>
     </div>
   );
 }
 
-export default AddEvent;
+export default Settings;
