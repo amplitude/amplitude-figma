@@ -66,7 +66,7 @@ function createDivider(): LineNode {
  * @param event event that label represents
  * @param clientNode associated Figma node that event is attached to
  */
-async function createLabelContents(event: EventMetadata, clientNode: SceneNode): Promise<FrameNode> {
+async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
   console.log(event);
   console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
@@ -77,7 +77,12 @@ async function createLabelContents(event: EventMetadata, clientNode: SceneNode):
   container.itemSpacing = 16;
   container.name = `Amplitude Event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
-  container.counterAxisSizingMode = 'AUTO';
+
+  container.x = clientNode.x + clientNode.width + OFFSET_X;
+  container.y = clientNode.y;
+  container.strokes = createPaint(0, 0.49804, 0.82353);
+  container.strokeWeight = 2;
+
   const pluginData: {[key: string]: string} = {};
 
   const name = createTextNode(event.name);
@@ -106,30 +111,11 @@ async function createLabelContents(event: EventMetadata, clientNode: SceneNode):
   container.appendChild(description);
   container.appendChild(createDivider());
   container.appendChild(notes);
+  figma.currentPage.appendChild(container);
 
   // Store label with event data and associated client node id
   container.setPluginData('eventMetadata', JSON.stringify(pluginData));
   container.setPluginData('clientNodeId', clientNode.id);
-
-  return container;
-}
-
-function createLabelBorder(): RectangleNode {
-  const border = figma.createRectangle();
-  border.strokes = createPaint(0, 0.49804, 0.82353);
-  border.strokeWeight = 2;
-  border.fills = createPaint(0, 0, 0, 0);
-  return border;
-}
-
-async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
-  const labelBorder = createLabelBorder();
-  const labelContents = await createLabelContents(event, clientNode);
-  const group = figma.group([labelContents], figma.currentPage);
-  group.appendChild(labelBorder);
-  labelBorder.resize(group.width, group.height);
-  group.x = clientNode.x + clientNode.width + OFFSET_X;
-  group.y = clientNode.y;
 }
 
 export function attachHandlers(): void {
