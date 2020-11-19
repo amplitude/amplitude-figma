@@ -1,5 +1,5 @@
 /** @jsx h */
-import { Container, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
+import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useState, useCallback } from 'preact/hooks';
