@@ -1,5 +1,5 @@
 /** @jsx h */
-import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
+import { Container, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useState, useCallback } from 'preact/hooks';
@@ -44,7 +44,10 @@ function AddEvent({ initialApiKey, initialSecretKey }: Props): JSX.Element {
       <Text bold>Secret Key </Text>
       <VerticalSpace space='extraSmall' />
       <Textbox name="secretKey" onChange={onChange} value={state.secretKey} />
-      <VerticalSpace space='medium' />
+      <div style={{ height: '100px' }} />
+      <a href="https://help.amplitude.com/hc/articles/235649848-Settings#h_01EHZSMMDAXC77MH5K65DKZSHF" target="_blank" rel="noreferrer">
+        <Text style={{ color: '#007FD2', textDecoration: 'underline #007FD2' }}>How can I find the API and Secret Keys?</Text>
+      </a>
     </div>
   );
 }
