@@ -1,5 +1,5 @@
 /** @jsx h */
-import { Divider, Button, Inline, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
+import { Divider, Button, Inline, moveDownIcon, VerticalSpace, Text, Textbox, DropdownMenu } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useState, useCallback } from 'preact/hooks';
@@ -11,7 +11,17 @@ export interface Props {
   onAddEvent: (event: EventMetadata) => void;
 }
 
+const noop = (..._: any[]): any => {
+  // Do nothing
+};
+
 const INITIAL_STATE: EventMetadata = { name: '', trigger: Trigger.ON_CLICK, description: '', notes: '' };
+
+const TRIGGER_OPTIONS = [
+  { value: Trigger.ON_CLICK },
+  { value: Trigger.ON_HOVER },
+  { value: Trigger.ON_LOAD }
+];
 
 function AddEvent({ onAddEvent }: Props): JSX.Element {
   const [state, setState] = useState(INITIAL_STATE);
@@ -33,8 +43,19 @@ function AddEvent({ onAddEvent }: Props): JSX.Element {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '80%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '89%' }}>
       <div style={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
+        <VerticalSpace space='medium' />
+        <Text bold>Event Trigger</Text>
+        <VerticalSpace space='extraSmall' />
+        <DropdownMenu name="trigger" onChange={onChange} options={TRIGGER_OPTIONS} value={state.trigger}>
+          <Button secondary onClick={noop}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              {state.trigger}
+              {moveDownIcon}
+            </div>
+          </Button>
+        </DropdownMenu>
         <VerticalSpace space='medium' />
         <Text bold>Name</Text>
         <VerticalSpace space='extraSmall' />
@@ -58,7 +79,7 @@ function AddEvent({ onAddEvent }: Props): JSX.Element {
       <Divider />
       <VerticalSpace space='small' />
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
-        <Button onClick={onClickAdd}>Add Event</Button>
+        <Button disabled={state.name.length === 0} onClick={onClickAdd}>Add Event</Button>
       </div>
       <VerticalSpace space='small' />
     </div>

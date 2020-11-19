@@ -10,7 +10,7 @@ export interface Props {
 
 function AllEvents({ events }: Props): JSX.Element {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '80%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '89%' }}>
       <div style={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
         <VerticalSpace space='medium' />
         <Text bold>Name</Text>
