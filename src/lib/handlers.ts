@@ -5,7 +5,8 @@ import { EventMetadata, NodeMarker } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
-const PADDING_X = 16;
+const PADDING_HORIZONTAL = 18;
+const PADDING_VERTICAL = 16;
 function createFillsColor(r: number, g: number, b: number): readonly SolidPaint[] {
   return [{
     blendMode: 'NORMAL',
@@ -44,26 +45,32 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   console.log(event);
   console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
-  const container = figma.createFrame();
-  container.x = clientNode.x + clientNode.width + PADDING_X;
-  container.y = clientNode.y;
 
+  const container = figma.createFrame();
+  container.x = clientNode.x + clientNode.width + PADDING_HORIZONTAL;
+  container.y = clientNode.y;
+  container.horizontalPadding = PADDING_HORIZONTAL;
+  container.verticalPadding = PADDING_VERTICAL;
   container.name = `event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
 
   const name = createTextNode(event.name);
+  name.fontSize = 16;
   name.setPluginData(NodeMarker.NAME, NodeMarker.NAME);
 
   const triggerTitle = createTextNode('Trigger');
   const trigger = createTextNode(event.trigger);
+  trigger.fontSize = 14;
   trigger.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
 
   const descriptionTitle = createTextNode('Description');
   const description = createTextNode(event.description);
+  description.fontSize = 14;
   description.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
 
   const notesTitle = createTextNode('Dev Note');
   const notes = createTextNode(event.notes);
+  notes.fontSize = 14;
   notes.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
 
   // #60758B
