@@ -1,4 +1,4 @@
-import { EventMetadata } from 'src/types/event';
+import { EventMetadata, NodeMarker } from 'src/types/event';
 
 export interface InitialData {
   initialApiKey: string;
@@ -6,7 +6,17 @@ export interface InitialData {
   initialEvents: EventMetadata[]
 }
 
-type ExpectedLabelChildren = [TextNode, TextNode, TextNode, TextNode];
+const MARKERS = [NodeMarker.NAME, NodeMarker.TRIGGER, NodeMarker.DESCRIPTION, NodeMarker.NOTES];
+
+export function findLabelsForEvent(eventNode: FrameNode): TextNode[] {
+  return MARKERS.map((marker): TextNode => {
+    const markedNode = eventNode.children.find((child) => {
+      return child.getPluginData(marker) === marker;
+    }) as TextNode | null;
+
+    return markedNode ?? figma.createText();
+  });
+}
 
 export function loadEvents(): EventMetadata[] {
   const events: EventMetadata[] = [];
@@ -15,11 +25,15 @@ export function loadEvents(): EventMetadata[] {
       // Indicator that the frame belongs to us
       const potentialPluginData = child.getPluginData('event');
       if (potentialPluginData.length !== 0 && 'children' in child) {
-        const pluginData = JSON.parse(potentialPluginData) as EventMetadata;
-        const [nameNode, , descriptionNode, notesNode] = child.children as ExpectedLabelChildren;
+        const eventNode = child as FrameNode;
+        // const pluginData = JSON.parse(potentialPluginData) as EventMetadata;
+        const [nameNode, triggerNode, descriptionNode, notesNode] = findLabelsForEvent(eventNode);
+
+        // Create the event metadata from the gathered nodes
         const event: EventMetadata = {
           name: nameNode.characters,
-          trigger: pluginData.trigger,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          trigger: triggerNode.characters as any,
           description: descriptionNode.characters,
           notes: notesNode.characters,
         };

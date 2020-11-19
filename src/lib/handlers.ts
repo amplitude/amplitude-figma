@@ -1,7 +1,7 @@
 
 import { on } from '@create-figma-plugin/utilities';
 
-import { EventMetadata } from 'src/types/event';
+import { EventMetadata, NodeMarker } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
@@ -34,12 +34,20 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   console.log(container.fills);
 
   name.insertCharacters(0, event.name);
+  name.setPluginData(NodeMarker.NAME, NodeMarker.NAME);
+
   triggerTitle.insertCharacters(0, 'Trigger');
   trigger.insertCharacters(0, event.trigger);
+  name.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
+
   descriptionTitle.insertCharacters(0, 'Description');
   description.insertCharacters(0, event.description);
+  name.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
+
   notesTitle.insertCharacters(0, 'Dev Note');
   notes.insertCharacters(0, event.notes);
+  name.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
+
   container.appendChild(name);
   container.appendChild(triggerTitle);
   container.appendChild(trigger);

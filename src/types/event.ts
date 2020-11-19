@@ -11,6 +11,15 @@ export interface EventMetadata {
   notes: string;
 }
 
+// Markers put on the nodes of an event label to show which nodes are
+// showing the data of an event. Used to load the events back into the "view events" UI.
+export enum NodeMarker {
+  NAME = 'name',
+  TRIGGER = 'trigger',
+  DESCRIPTION = 'description',
+  NOTES = 'notes',
+}
+
 export const MOCK_EVENTS: EventMetadata[] = [
   {
     name: 'Checkout Clicked',
