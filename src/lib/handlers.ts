@@ -16,6 +16,13 @@ function createFillsColor(r: number, g: number, b: number): readonly SolidPaint[
   }];
 }
 
+function createTextNode(str: string): TextNode {
+  const text = figma.createText();
+  text.fontName = { family: 'Inter', style: 'Regular' };
+  text.insertCharacters(0, str);
+  return text;
+}
+
 /**
  * Creates event label and adds it to the page
  * @param event event that label represents
@@ -24,29 +31,21 @@ function createFillsColor(r: number, g: number, b: number): readonly SolidPaint[
 async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
   console.log(event);
   console.log(figma.currentPage.selection);
-  await figma.loadFontAsync({ family: 'Roboto', style: 'Regular' });
+  await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
   const container = figma.createFrame();
   container.x = clientNode.x + clientNode.width + PADDING_X;
   container.y = clientNode.y;
 
-  const name = figma.createText();
-  const triggerTitle = figma.createText();
-  const trigger = figma.createText();
-  const descriptionTitle = figma.createText();
-  const description = figma.createText();
-  const notesTitle = figma.createText();
-  const notes = figma.createText();
-
   container.name = `event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
 
-  name.insertCharacters(0, event.name);
-  triggerTitle.insertCharacters(0, 'Trigger');
-  trigger.insertCharacters(0, event.trigger);
-  descriptionTitle.insertCharacters(0, 'Description');
-  description.insertCharacters(0, event.description);
-  notesTitle.insertCharacters(0, 'Dev Note');
-  notes.insertCharacters(0, event.notes);
+  const name = createTextNode(event.name);
+  const triggerTitle = createTextNode('Trigger');
+  const trigger = createTextNode(event.trigger);
+  const descriptionTitle = createTextNode('Description');
+  const description = createTextNode(event.description);
+  const notesTitle = createTextNode('Dev Note');
+  const notes = createTextNode(event.notes);
 
   // #60758B
   const gray = createFillsColor(0.37647, 0.45882, 0.54510);
