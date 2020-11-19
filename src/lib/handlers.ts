@@ -5,6 +5,8 @@ import { EventMetadata } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
+const PADDING_X = 16;
+
 /**
  * Creates event label and adds it to the page
  * @param event event that label represents
@@ -15,6 +17,9 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Roboto', style: 'Regular' });
   const container = figma.createFrame();
+  container.x = clientNode.x + clientNode.width + PADDING_X;
+  container.y = clientNode.y;
+
   const name = figma.createText();
   const trigger = figma.createText();
   const description = figma.createText();

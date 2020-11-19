@@ -6,7 +6,7 @@ export interface InitialData {
   initialEvents: EventMetadata[]
 }
 
-type ExpectedLabelChildren = [RectangleNode, TextNode, TextNode, TextNode];
+type ExpectedLabelChildren = [TextNode, TextNode, TextNode, TextNode];
 
 export function loadEvents(): EventMetadata[] {
   const events: EventMetadata[] = [];
@@ -16,7 +16,7 @@ export function loadEvents(): EventMetadata[] {
       const potentialPluginData = child.getPluginData('event');
       if (potentialPluginData.length !== 0 && 'children' in child) {
         const pluginData = JSON.parse(potentialPluginData) as EventMetadata;
-        const [, nameNode, descriptionNode, notesNode] = child.children as ExpectedLabelChildren;
+        const [nameNode, , descriptionNode, notesNode] = child.children as ExpectedLabelChildren;
         const event: EventMetadata = {
           name: nameNode.characters,
           trigger: pluginData.trigger,
