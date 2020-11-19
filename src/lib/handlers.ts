@@ -69,12 +69,20 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.horizontalPadding = PADDING_HORIZONTAL;
   container.verticalPadding = PADDING_VERTICAL;
   container.itemSpacing = 16;
-  container.name = `event: ${event.name}`;
+  container.name = `Amplitude Event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
+  container.counterAxisSizingMode = 'AUTO';
 
   const name = createTextNode(event.name);
   name.fontSize = 16;
   name.setPluginData(NodeMarker.NAME, NodeMarker.NAME);
+
+  const nameContainer = figma.createFrame();
+  nameContainer.layoutMode = 'HORIZONTAL';
+  nameContainer.itemSpacing = 4;
+  nameContainer.appendChild(createLogo());
+  nameContainer.appendChild(name);
+  nameContainer.counterAxisSizingMode = 'AUTO';
 
   const trigger = createDetailFrame('Trigger', event.trigger);
   trigger.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
@@ -85,8 +93,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   const notes = createDetailFrame('Dev Note', event.notes);
   notes.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
 
-  container.appendChild(createLogo());
-  container.appendChild(name);
+  container.appendChild(nameContainer);
   container.appendChild(trigger);
   container.appendChild(description);
   container.appendChild(notes);
