@@ -16,8 +16,11 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   await figma.loadFontAsync({ family: 'Roboto', style: 'Regular' });
   const container = figma.createFrame();
   const name = figma.createText();
+  const triggerTitle = figma.createText();
   const trigger = figma.createText();
+  const descriptionTitle = figma.createText();
   const description = figma.createText();
+  const notesTitle = figma.createText();
   const notes = figma.createText();
 
   container.name = `event: ${event.name}`;
@@ -26,12 +29,18 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   console.log(container.fills);
 
   name.insertCharacters(0, event.name);
-  description.insertCharacters(0, event.description);
+  triggerTitle.insertCharacters(0, 'Trigger');
   trigger.insertCharacters(0, event.trigger);
+  descriptionTitle.insertCharacters(0, 'Description');
+  description.insertCharacters(0, event.description);
+  notesTitle.insertCharacters(0, 'Dev Note');
   notes.insertCharacters(0, event.notes);
   container.appendChild(name);
+  container.appendChild(triggerTitle);
   container.appendChild(trigger);
+  container.appendChild(descriptionTitle);
   container.appendChild(description);
+  container.appendChild(notesTitle);
   container.appendChild(notes);
 
   // Store label with event data and associated client node id
