@@ -20,6 +20,10 @@ export enum NodeMarker {
   NOTES = 'notes',
 }
 
+export type PluginData = {
+  [key in NodeMarker]: string
+};
+
 export const MOCK_EVENTS: EventMetadata[] = [
   {
     name: 'Checkout Clicked',

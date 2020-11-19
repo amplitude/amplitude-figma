@@ -72,6 +72,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.name = `Amplitude Event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
   container.counterAxisSizingMode = 'AUTO';
+  const pluginData: {[key: string]: string} = {};
 
   const name = createTextNode(event.name);
   name.fontSize = 16;
@@ -83,15 +84,16 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   nameContainer.appendChild(createLogo());
   nameContainer.appendChild(name);
   nameContainer.counterAxisSizingMode = 'AUTO';
+  pluginData[NodeMarker.NAME] = name.id;
 
   const trigger = createDetailFrame('Trigger', event.trigger);
-  trigger.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
+  pluginData[NodeMarker.TRIGGER] = trigger.children[1].id;
 
   const description = createDetailFrame('Description', event.description);
-  description.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
+  pluginData[NodeMarker.DESCRIPTION] = description.children[1].id;
 
   const notes = createDetailFrame('Dev Note', event.notes);
-  notes.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
+  pluginData[NodeMarker.NOTES] = notes.children[1].id;
 
   container.appendChild(nameContainer);
   container.appendChild(trigger);
@@ -99,7 +101,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.appendChild(notes);
 
   // Store label with event data and associated client node id
-  container.setPluginData('event', JSON.stringify(event));
+  container.setPluginData('eventMetadata', JSON.stringify(pluginData));
   container.setPluginData('clientNodeId', clientNode.id);
 
   figma.currentPage.appendChild(container);

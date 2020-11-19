@@ -1,4 +1,4 @@
-import { EventMetadata, NodeMarker } from 'src/types/event';
+import { EventMetadata, NodeMarker, PluginData } from 'src/types/event';
 
 export interface InitialData {
   initialApiKey: string;
@@ -8,11 +8,9 @@ export interface InitialData {
 
 const MARKERS = [NodeMarker.NAME, NodeMarker.TRIGGER, NodeMarker.DESCRIPTION, NodeMarker.NOTES];
 
-export function findLabelsForEvent(eventNode: FrameNode): string[] {
+export function findLabelsForEvent(pluginData: PluginData): string[] {
   return MARKERS.map((marker): string => {
-    const markedNode = eventNode.children.find((child) => {
-      return child.getPluginData(marker) === marker;
-    }) as TextNode | null;
+    const markedNode = figma.getNodeById(pluginData[marker]);
 
     if (markedNode !== null && 'characters' in markedNode) {
       return markedNode.characters;
@@ -26,11 +24,10 @@ export function loadEvents(): EventMetadata[] {
   figma.currentPage.children.forEach((child) => {
     try {
       // Indicator that the frame belongs to us
-      const potentialPluginData = child.getPluginData('event');
-      if (potentialPluginData.length !== 0 && 'children' in child) {
-        const eventNode = child as FrameNode;
-        // const pluginData = JSON.parse(potentialPluginData) as EventMetadata;
-        const [name, trigger, description, notes] = findLabelsForEvent(eventNode);
+      const potentialPluginData = child.getPluginData('eventMetadata');
+      if (potentialPluginData.length !== 0) {
+        const pluginData = JSON.parse(potentialPluginData) as PluginData;
+        const [name, trigger, description, notes] = findLabelsForEvent(pluginData);
 
         // Create the event metadata from the gathered nodes
         const event: EventMetadata = {
@@ -40,7 +37,6 @@ export function loadEvents(): EventMetadata[] {
           description,
           notes,
         };
-        console.log(event);
 
         events.push(event);
       }
