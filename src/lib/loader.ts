@@ -8,13 +8,16 @@ export interface InitialData {
 
 const MARKERS = [NodeMarker.NAME, NodeMarker.TRIGGER, NodeMarker.DESCRIPTION, NodeMarker.NOTES];
 
-export function findLabelsForEvent(eventNode: FrameNode): TextNode[] {
-  return MARKERS.map((marker): TextNode => {
+export function findLabelsForEvent(eventNode: FrameNode): string[] {
+  return MARKERS.map((marker): string => {
     const markedNode = eventNode.children.find((child) => {
       return child.getPluginData(marker) === marker;
     }) as TextNode | null;
 
-    return markedNode ?? figma.createText();
+    if (markedNode !== null && 'characters' in markedNode) {
+      return markedNode.characters;
+    }
+    return '';
   });
 }
 
@@ -27,16 +30,17 @@ export function loadEvents(): EventMetadata[] {
       if (potentialPluginData.length !== 0 && 'children' in child) {
         const eventNode = child as FrameNode;
         // const pluginData = JSON.parse(potentialPluginData) as EventMetadata;
-        const [nameNode, triggerNode, descriptionNode, notesNode] = findLabelsForEvent(eventNode);
+        const [name, trigger, description, notes] = findLabelsForEvent(eventNode);
 
         // Create the event metadata from the gathered nodes
         const event: EventMetadata = {
-          name: nameNode.characters,
+          name,
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          trigger: triggerNode.characters as any,
-          description: descriptionNode.characters,
-          notes: notesNode.characters,
+          trigger: trigger as any,
+          description,
+          notes,
         };
+        console.log(event);
 
         events.push(event);
       }

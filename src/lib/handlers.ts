@@ -38,15 +38,15 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
 
   triggerTitle.insertCharacters(0, 'Trigger');
   trigger.insertCharacters(0, event.trigger);
-  name.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
+  trigger.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
 
   descriptionTitle.insertCharacters(0, 'Description');
   description.insertCharacters(0, event.description);
-  name.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
+  description.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
 
   notesTitle.insertCharacters(0, 'Dev Note');
   notes.insertCharacters(0, event.notes);
-  name.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
+  notes.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
 
   container.appendChild(name);
   container.appendChild(triggerTitle);
