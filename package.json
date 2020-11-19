@@ -12,7 +12,8 @@
     "@create-figma-plugin/ui": "0.0.80",
     "@create-figma-plugin/utilities": "0.0.80",
     "axios": "^0.21.0",
-    "preact": "^10.5.7"
+    "preact": "^10.5.7",
+    "querystring": "^0.2.0"
   },
   "devDependencies": {
     "@amplitude/eslint-config-typescript": "^1.1.0",
