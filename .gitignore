@@ -5,3 +5,4 @@ build/
 manifest.json
 node_modules/
 .eslintcache
+.package-lock.json
