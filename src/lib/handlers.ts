@@ -66,14 +66,12 @@ function createDivider(): LineNode {
  * @param event event that label represents
  * @param clientNode associated Figma node that event is attached to
  */
-async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
+async function createLabelContents(event: EventMetadata, clientNode: SceneNode): Promise<FrameNode> {
   console.log(event);
   console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
 
   const container = figma.createFrame();
-  container.x = clientNode.x + clientNode.width + OFFSET_X;
-  container.y = clientNode.y;
   container.horizontalPadding = PADDING_HORIZONTAL;
   container.verticalPadding = PADDING_VERTICAL;
   container.itemSpacing = 16;
@@ -113,7 +111,25 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.setPluginData('eventMetadata', JSON.stringify(pluginData));
   container.setPluginData('clientNodeId', clientNode.id);
 
-  figma.currentPage.appendChild(container);
+  return container;
+}
+
+function createLabelBorder(): RectangleNode {
+  const border = figma.createRectangle();
+  border.strokes = createPaint(0, 0.49804, 0.82353);
+  border.strokeWeight = 2;
+  border.fills = createPaint(0, 0, 0, 0);
+  return border;
+}
+
+async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
+  const labelBorder = createLabelBorder();
+  const labelContents = await createLabelContents(event, clientNode);
+  const group = figma.group([labelContents], figma.currentPage);
+  group.appendChild(labelBorder);
+  labelBorder.resize(group.width, group.height);
+  group.x = clientNode.x + clientNode.width + OFFSET_X;
+  group.y = clientNode.y;
 }
 
 export function attachHandlers(): void {
