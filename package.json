@@ -53,6 +53,7 @@
         "main": "src/entries/settings.ts",
         "ui": "src/ui.tsx"
       },
+      "-",
       {
         "name": "Tutorial",
         "main": "src/entries/tutorial.ts",
