@@ -29,6 +29,6 @@ export async function loadInitialData(): Promise<InitialData> {
   return {
     initialApiKey,
     initialSecretKey,
-    initialEvents: loadEvents(), // TODO load and don't mock
+    initialEvents: loadEvents(),
   };
 }
