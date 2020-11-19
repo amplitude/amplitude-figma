@@ -6,7 +6,7 @@ export enum Trigger {
 
 export interface EventMetadata {
   name: string;
-  triggerType: Trigger;
+  trigger: Trigger;
   description: string;
   notes: string;
 }

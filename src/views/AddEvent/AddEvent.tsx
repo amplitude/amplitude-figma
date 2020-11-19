@@ -11,7 +11,7 @@ export interface Props {
   onAddEvent: (event: EventMetadata) => void;
 }
 
-const INITIAL_STATE = { name: '', trigger: Trigger.ON_CLICK, description: '', notes: '' };
+const INITIAL_STATE: EventMetadata = { name: '', trigger: Trigger.ON_CLICK, description: '', notes: '' };
 
 function AddEvent({ onAddEvent }: Props): JSX.Element {
   const [state, setState] = useState(INITIAL_STATE);
