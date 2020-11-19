@@ -36,6 +36,22 @@ function createTextNode(str: string): TextNode {
   return text;
 }
 
+function createDetailFrame(title: string, data: string): FrameNode {
+  const gray = createFillsColor(0.37647, 0.45882, 0.54510);
+  const container = figma.createFrame();
+  const titleTextNode = createTextNode(title);
+  const dataTextNode = createTextNode(data);
+  titleTextNode.fills = gray;
+  dataTextNode.fontSize = 14;
+
+  container.layoutMode = 'VERTICAL';
+  container.name = `${title} group`;
+  container.itemSpacing = 4;
+  container.appendChild(titleTextNode);
+  container.appendChild(dataTextNode);
+  return container;
+}
+
 /**
  * Creates event label and adds it to the page
  * @param event event that label represents
@@ -51,6 +67,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.y = clientNode.y;
   container.horizontalPadding = PADDING_HORIZONTAL;
   container.verticalPadding = PADDING_VERTICAL;
+  container.itemSpacing = 16;
   container.name = `event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
 
@@ -58,35 +75,19 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   name.fontSize = 16;
   name.setPluginData(NodeMarker.NAME, NodeMarker.NAME);
 
-  const triggerTitle = createTextNode('Trigger');
-  const trigger = createTextNode(event.trigger);
-  trigger.fontSize = 14;
+  const trigger = createDetailFrame('Trigger', event.trigger);
   trigger.setPluginData(NodeMarker.TRIGGER, NodeMarker.TRIGGER);
 
-  const descriptionTitle = createTextNode('Description');
-  const description = createTextNode(event.description);
-  description.fontSize = 14;
+  const description = createDetailFrame('Description', event.description);
   description.setPluginData(NodeMarker.DESCRIPTION, NodeMarker.DESCRIPTION);
 
-  const notesTitle = createTextNode('Dev Note');
-  const notes = createTextNode(event.notes);
-  notes.fontSize = 14;
+  const notes = createDetailFrame('Dev Note', event.notes);
   notes.setPluginData(NodeMarker.NOTES, NodeMarker.NOTES);
-
-  // #60758B
-  const gray = createFillsColor(0.37647, 0.45882, 0.54510);
-
-  triggerTitle.fills = gray;
-  descriptionTitle.fills = gray;
-  notesTitle.fills = gray;
 
   container.appendChild(createLogo());
   container.appendChild(name);
-  container.appendChild(triggerTitle);
   container.appendChild(trigger);
-  container.appendChild(descriptionTitle);
   container.appendChild(description);
-  container.appendChild(notesTitle);
   container.appendChild(notes);
 
   // Store label with event data and associated client node id
