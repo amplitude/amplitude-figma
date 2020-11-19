@@ -15,17 +15,20 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Roboto', style: 'Regular' });
   const container = figma.createFrame();
-  const rect = figma.createRectangle();
   const name = figma.createText();
   const trigger = figma.createText();
   const description = figma.createText();
   const notes = figma.createText();
 
-  container.name = event.name;
+  container.name = `event: ${event.name}`;
+  container.layoutMode = 'VERTICAL';
+  console.log('color');
+  console.log(container.fills);
+
   name.insertCharacters(0, event.name);
   description.insertCharacters(0, event.description);
+  trigger.insertCharacters(0, event.trigger);
   notes.insertCharacters(0, event.notes);
-  container.appendChild(rect);
   container.appendChild(name);
   container.appendChild(trigger);
   container.appendChild(description);
