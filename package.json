@@ -25,17 +25,27 @@
     "eslint-plugin-import": "2",
     "eslint-plugin-node": "11",
     "eslint-plugin-promise": "4",
-    "eslint-plugin-standard": "4"
+    "eslint-plugin-standard": "4",
+    "husky": ">=4",
+    "lint-staged": ">=10"
   },
   "scripts": {
     "build": "build-figma-plugin",
     "watch": "build-figma-plugin --watch",
-    "lint": "eslint src/"
+    "lint": "eslint src/ --cache --fix"
   },
   "figma-plugin": {
     "id": "amp-figma",
     "name": "Amplitude Event Planner",
     "main": "src/main.ts",
     "ui": "src/ui.tsx"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn build"
+    }
+  },
+  "lint-staged": {
+    "*.js": "yarn lint"
   }
 }
