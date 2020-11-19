@@ -4,14 +4,14 @@ import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useState, useCallback } from 'preact/hooks';
 
-import { EventMetadata } from 'src/types/event';
+import { EventMetadata, Trigger } from 'src/types/event';
 import { Message } from 'src/types/message';
 
 export interface Props {
   onAddEvent: (event: EventMetadata) => void;
 }
 
-const INITIAL_STATE = { name: '', description: '', notes: '' };
+const INITIAL_STATE = { name: '', trigger: Trigger.ON_CLICK, description: '', notes: '' };
 
 function AddEvent({ onAddEvent }: Props): JSX.Element {
   const [state, setState] = useState(INITIAL_STATE);
