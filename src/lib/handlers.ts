@@ -6,6 +6,15 @@ import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
 const PADDING_X = 16;
+function createFillsColor(r: number, g: number, b: number): readonly SolidPaint[] {
+  return [{
+    blendMode: 'NORMAL',
+    color: { r, g, b },
+    opacity: 1,
+    type: 'SOLID',
+    visible: true
+  }];
+}
 
 /**
  * Creates event label and adds it to the page
@@ -30,8 +39,6 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
 
   container.name = `event: ${event.name}`;
   container.layoutMode = 'VERTICAL';
-  console.log('color');
-  console.log(container.fills);
 
   name.insertCharacters(0, event.name);
   triggerTitle.insertCharacters(0, 'Trigger');
@@ -40,6 +47,14 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   description.insertCharacters(0, event.description);
   notesTitle.insertCharacters(0, 'Dev Note');
   notes.insertCharacters(0, event.notes);
+
+  // #60758B
+  const gray = createFillsColor(0.37647, 0.45882, 0.54510);
+
+  triggerTitle.fills = gray;
+  descriptionTitle.fills = gray;
+  notesTitle.fills = gray;
+
   container.appendChild(name);
   container.appendChild(triggerTitle);
   container.appendChild(trigger);
