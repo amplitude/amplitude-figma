@@ -1,4 +1,4 @@
-interface AcceptableData {
+export interface AcceptableData {
   [key: string]: null | undefined | Date | string | number | boolean;
 }
 
