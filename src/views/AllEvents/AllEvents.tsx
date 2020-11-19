@@ -30,11 +30,12 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
 
 function AllEvents({ events }: Props): JSX.Element {
   const onClickCsvExport = (): void => {
-    // CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
-
-    ApiService.createEventType("9862ba8f60bb7b9c97adec8dd88d0153", "cf582a1547675a7bc806907994a48e09", "hack type", "hack desc")
+    CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
   };
 
+  const onClickTaxonomyExport = async (): Promise<void> => {
+    await ApiService.createEventType('9862ba8f60bb7b9c97adec8dd88d0153', 'cf582a1547675a7bc806907994a48e09', 'kelvin type', 'hack desc from kelvin but test');
+  };
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '89%' }}>
       <Container style={{ height: '100%', display: 'flex', flexDirection: 'column', overflowX: 'auto' }}>
@@ -54,6 +55,8 @@ function AllEvents({ events }: Props): JSX.Element {
       <Divider />
       <VerticalSpace />
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
+        <Button onClick={onClickTaxonomyExport}>Export to Amplitude Planner</Button>
+        <div style={{ width: '4px' }} />
         <Button onClick={onClickCsvExport}>Export to CSV</Button>
       </div>
       <VerticalSpace space='small' />

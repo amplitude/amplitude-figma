@@ -20,6 +20,7 @@
     "@create-figma-plugin/build": "0.0.80",
     "@create-figma-plugin/tsconfig": "0.0.80",
     "@figma/plugin-typings": "^1.16.1",
+    "@types/axios": "^0.14.0",
     "@typescript-eslint/eslint-plugin": "4",
     "eslint": "7",
     "eslint-config-preact": "^1.1.3",

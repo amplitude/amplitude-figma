@@ -1,23 +1,25 @@
+
+import axios from 'axios';
+import qs from 'querystring';
+
+const TAXONOMY_ADD_EVENT_ENDPOINT = 'https://cors-anywhere.herokuapp.com/https://amplitude.com/api/2/taxonomy/event';
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class ApiService {
+  // eslint-disable-next-line @typescript-eslint/require-await
   static async createEventType(
     apiKey: string,
     secrectKey: string,
     eventType: string,
     description: string
   ): Promise<void> {
-
-    console.log("GOING TO CREATE AN EVENT TYPE!!");
-    const axios = require("axios");
-    const qs = require("querystring");
-
     const requestBody = {
       event_type: eventType,
-      description: description,
+      description,
     };
 
-    axios
+    const response = await axios
       .post(
-        "https://amplitude.com/api/2/taxonomy/event",
+        TAXONOMY_ADD_EVENT_ENDPOINT,
         qs.stringify(requestBody),
         {
           auth: {
@@ -25,17 +27,12 @@ export class ApiService {
             password: secrectKey,
           },
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/x-www-form-urlencoded",
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
         }
-      )
-      .then((response) => {
-        console.log("Created an event type");
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log("Fail to create event type: " + eventType);
-      });
+      );
+
+    console.log('Created an event type', response);
   }
 }
