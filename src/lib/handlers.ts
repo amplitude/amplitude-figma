@@ -5,16 +5,22 @@ import { EventMetadata } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
-// Creates event label and adds it to the page
-async function createLabel(event: EventMetadata): Promise<void> {
+/**
+ * Creates event label and adds it to the page
+ * @param event event that label represents
+ * @param clientNode associated Figma node that event is attached to
+ */
+async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
   console.log(event);
   console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Roboto', style: 'Regular' });
+
   const container = figma.createFrame();
   const rect = figma.createRectangle();
   const name = figma.createText();
   const description = figma.createText();
   const notes = figma.createText();
+
   name.insertCharacters(0, event.name);
   description.insertCharacters(0, event.description);
   notes.insertCharacters(0, event.notes);
@@ -22,6 +28,11 @@ async function createLabel(event: EventMetadata): Promise<void> {
   container.appendChild(name);
   container.appendChild(description);
   container.appendChild(notes);
+
+  // Store label with event data and associated client node id
+  container.setPluginData('event', JSON.stringify(event));
+  container.setPluginData('clientNodeId', clientNode.id);
+
   figma.currentPage.appendChild(container);
 }
 
@@ -33,7 +44,7 @@ export function attachHandlers(): void {
       figma.notify('Please group multiple elements into a single frame');
     } else {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      createLabel(event);
+      createLabel(event, figma.currentPage.selection[0]);
     }
   });
 
