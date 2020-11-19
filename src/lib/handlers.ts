@@ -5,6 +5,7 @@ import { EventMetadata, NodeMarker } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
+const OFFSET_X = 16;
 const PADDING_HORIZONTAL = 18;
 const PADDING_VERTICAL = 16;
 function createFillsColor(r: number, g: number, b: number): readonly SolidPaint[] {
@@ -47,7 +48,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
 
   const container = figma.createFrame();
-  container.x = clientNode.x + clientNode.width + PADDING_HORIZONTAL;
+  container.x = clientNode.x + clientNode.width + OFFSET_X;
   container.y = clientNode.y;
   container.horizontalPadding = PADDING_HORIZONTAL;
   container.verticalPadding = PADDING_VERTICAL;
