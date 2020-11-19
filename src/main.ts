@@ -5,6 +5,8 @@ import { Message } from 'src/types/message';
 import { EventMetadata } from 'src/types/event';
 
 function createLabel(event: EventMetadata): void {
+  console.log(event);
+  console.log(figma.currentPage.selection);
   const container = figma.createFrame();
   const rect = figma.createRectangle();
   const name = figma.createText();
@@ -24,8 +26,14 @@ function createLabel(event: EventMetadata): void {
 
 export default async function (): Promise<void> {
   on(Message.ADD_EVENT, (event: EventMetadata) => {
-    console.log(event);
-    createLabel(event);
+    if (figma.currentPage.selection.length === 0) {
+      figma.notify('Please select an element');
+    } else if (figma.currentPage.selection.length > 1) {
+      figma.notify('Please group multiple elements into a single frame');
+    } else {
+      createLabel(event);
+      saveEvent(event);
+    }
   });
 
   on(Message.API_KEY, (apiKey: string) => {
