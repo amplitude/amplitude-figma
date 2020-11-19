@@ -48,12 +48,19 @@ function AddEvent({ onAddEvent }: Props): JSX.Element {
       <div style={{ display: 'flex', flexGrow: 1, flexDirection: 'column' }}>
         <VerticalSpace space='medium' />
         <Text bold>Event Trigger</Text>
-        <VerticalSpace space='extraSmall' />
+        <VerticalSpace space='small' />
         <DropdownMenu name="trigger" onChange={onChange} options={TRIGGER_OPTIONS} value={state.trigger}>
-          <Button secondary onClick={noop} style={{ borderRadius: '3px' }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Button secondary onClick={noop} style={{ borderRadius: '3px', width: '100px', }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
               {state.trigger}
-              <div style={{ width: '6px' }} />
               <CaretDown />
             </div>
           </Button>
