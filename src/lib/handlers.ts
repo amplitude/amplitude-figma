@@ -5,7 +5,8 @@ import { EventMetadata, NodeMarker } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
-const OFFSET_X = 16;
+const OFFSET_X = 32;
+const OFFSET_Y = 16;
 const PADDING_HORIZONTAL = 18;
 const PADDING_VERTICAL = 16;
 
@@ -17,6 +18,22 @@ function createPaint(r: number, g: number, b: number, opacity = 1): readonly Sol
     type: 'SOLID',
     visible: true
   }];
+}
+
+const BRACKET_PADDING = 8;
+
+function createBracket(node: SceneNode): VectorNode {
+  const bracket = figma.createVector();
+  const maxX = 16 + BRACKET_PADDING;
+  const maxY = node.height + 2 * BRACKET_PADDING;
+  bracket.vectorPaths = [{ windingRule: 'NONZERO', data: `M 0 ${maxY} L ${maxX} ${maxY} L ${maxX} 0 L 0 0` }];
+  bracket.strokes = createPaint(0, 0.49803921580314636, 0.8235294222831726);
+  bracket.strokeCap = 'NONE';
+  bracket.strokeWeight = 2;
+  bracket.x = node.x + node.width - BRACKET_PADDING;
+  bracket.y = node.y - BRACKET_PADDING;
+
+  return bracket;
 }
 
 function createLogo(): VectorNode {
@@ -110,7 +127,7 @@ async function createLabelContents(event: EventMetadata, clientNode: SceneNode):
   // Store label with event data and associated client node id
   container.setPluginData('eventMetadata', JSON.stringify(pluginData));
   container.setPluginData('clientNodeId', clientNode.id);
-
+  createBracket(clientNode);
   return container;
 }
 
@@ -129,7 +146,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   group.appendChild(labelBorder);
   labelBorder.resize(group.width, group.height);
   group.x = clientNode.x + clientNode.width + OFFSET_X;
-  group.y = clientNode.y;
+  group.y = clientNode.y - OFFSET_Y;
 }
 
 export function attachHandlers(): void {
