@@ -44,7 +44,9 @@ export function attachHandlers(): void {
       figma.notify('Please group multiple elements into a single frame');
     } else {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      createLabel(event, figma.currentPage.selection[0]);
+      createLabel(event, figma.currentPage.selection[0]).then(() => {
+        figma.notify(`✔️ Event '${event.name}' added!`);
+      });
     }
   });
 
