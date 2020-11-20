@@ -84,7 +84,9 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           Export to Amplitude Planner
         </Button>
         <div style={{ width: '8px' }} />
-        <Button onClick={onClickCsvExport} disabled={events.length === 0}>Export to CSV</Button>
+        <Button onClick={onClickCsvExport} disabled={events.length === 0}>
+          Export to CSV
+        </Button>
       </div>
       <VerticalSpace space='small' />
     </div>
