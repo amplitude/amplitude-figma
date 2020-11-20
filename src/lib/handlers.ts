@@ -165,7 +165,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.appendChild(description);
   container.appendChild(createDivider());
   container.appendChild(notes);
-  container.resize(250, container.height);
+  container.resize(300, container.height);
   const group = figma.group([container, createBracket(clientNode)], figma.currentPage);
   group.name = `${event.name}`;
   addToAmplitudeGroup(group);
