@@ -91,6 +91,8 @@ function addToAmplitudeGroup(newLabel: GroupNode): void {
   if (groupedLabels === null) {
     groupedLabels = figma.group([newLabel], figma.currentPage);
     groupedLabels.name = 'Amplitude Event Labels';
+    groupedLabels.locked = true;
+    groupedLabels.expanded = false;
     figma.currentPage.setPluginData('event_group', groupedLabels.id);
   } else {
     groupedLabels.appendChild(newLabel);
