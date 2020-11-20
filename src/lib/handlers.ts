@@ -31,8 +31,8 @@ function createBracket(node: SceneNode): VectorNode {
   bracket.strokes = createPaint(0, 0.49803921580314636, 0.8235294222831726);
   bracket.strokeCap = 'NONE';
   bracket.strokeWeight = 2;
-  bracket.x = node.x + node.width - BRACKET_WIDTH;
-  bracket.y = node.y - BRACKET_PADDING;
+  bracket.x = node.absoluteTransform[0][2] + node.width - BRACKET_WIDTH;
+  bracket.y = node.absoluteTransform[1][2] - BRACKET_PADDING;
 
   return bracket;
 }
@@ -91,6 +91,8 @@ function addToAmplitudeGroup(newLabel: GroupNode): void {
   if (groupedLabels === null) {
     groupedLabels = figma.group([newLabel], figma.currentPage);
     groupedLabels.name = 'Amplitude Event Labels';
+    groupedLabels.locked = true;
+    groupedLabels.expanded = false;
     figma.currentPage.setPluginData('event_group', groupedLabels.id);
   } else {
     groupedLabels.appendChild(newLabel);
@@ -114,8 +116,10 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.name = 'Label';
   container.layoutMode = 'VERTICAL';
 
-  container.x = clientNode.x + clientNode.width + OFFSET_X;
-  container.y = clientNode.y - OFFSET_Y;
+  // clientNode.x uses relative positioning, we need absolute
+  container.x = clientNode.absoluteTransform[0][2] + clientNode.width + OFFSET_X;
+  container.y = clientNode.absoluteTransform[1][2] - OFFSET_Y;
+
   container.strokes = createPaint(0, 0.49804, 0.82353);
   container.strokeWeight = 2;
 
@@ -147,6 +151,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.appendChild(description);
   container.appendChild(createDivider());
   container.appendChild(notes);
+  container.resize(250, container.height);
   const group = figma.group([container, createBracket(clientNode)], figma.currentPage);
   group.name = `${event.name}`;
   addToAmplitudeGroup(group);
