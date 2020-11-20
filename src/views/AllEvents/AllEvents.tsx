@@ -1,6 +1,7 @@
 /** @jsx h */
 import { Container, Divider, Button, VerticalSpace, Text } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
+import { useState } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { CsvDataService } from 'src/services/csv.service';
@@ -31,11 +32,13 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
 }
 
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
+  const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
   const onClickCsvExport = (): void => {
     CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
   };
 
   const onClickTaxonomyExport = async (): Promise<void> => {
+    setIsSavingTaxonomy(true);
     await Promise.all(events.map(async (event) => {
       return await ApiService.createEventType(
         apiKey,
@@ -44,7 +47,9 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
         event.description
       );
     }));
+    setIsSavingTaxonomy(false);
   };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '89%' }}>
       <Container style={{ height: '100%', display: 'flex', flexDirection: 'column', overflowX: 'auto' }}>
@@ -64,8 +69,8 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
       <Divider />
       <VerticalSpace />
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
-        <Button onClick={onClickTaxonomyExport}>Export to Amplitude Planner</Button>
-        <div style={{ width: '4px' }} />
+        <Button onClick={onClickTaxonomyExport} loading={isSavingTaxonomy}>Export to Amplitude Planner</Button>
+        <div style={{ width: '8px' }} />
         <Button onClick={onClickCsvExport}>Export to CSV</Button>
       </div>
       <VerticalSpace space='small' />
