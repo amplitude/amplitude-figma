@@ -7,6 +7,8 @@ import { CsvDataService } from 'src/services/csv.service';
 import { ApiService } from 'src/services/api.service';
 
 export interface Props {
+  apiKey: string,
+  secretKey: string,
   events: EventMetadata[];
 }
 
@@ -28,13 +30,20 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
   );
 }
 
-function AllEvents({ events }: Props): JSX.Element {
+function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   const onClickCsvExport = (): void => {
     CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
   };
 
   const onClickTaxonomyExport = async (): Promise<void> => {
-    await ApiService.createEventType('9862ba8f60bb7b9c97adec8dd88d0153', 'cf582a1547675a7bc806907994a48e09', 'kelvin type', 'hack desc from kelvin but test');
+    await Promise.all(events.map(async (event) => {
+      return await ApiService.createEventType(
+        apiKey,
+        secretKey,
+        event.name,
+        event.description
+      );
+    }));
   };
   return (
     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '89%' }}>

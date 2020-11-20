@@ -29,6 +29,8 @@ function Plugin (props: Props): JSX.Element {
   } = props;
   const [tab, setTab] = useState<Tab>(initialTab);
   const [events, setEvents] = useState<EventMetadata[]>(initialEvents);
+  const [apiKey, setApiKey] = useState<string>(initialApiKey);
+  const [secretKey, setSecretKey] = useState<string>(initialSecretKey);
 
   const onAddEvent = useCallback((newEvent: EventMetadata) => {
     setEvents((oldEvents) => [...oldEvents, newEvent]);
@@ -44,11 +46,18 @@ function Plugin (props: Props): JSX.Element {
   const tabOptions = useMemo(() => {
     return [
       { value: Tab.ADD_EVENT, view: <AddEvent onAddEvent={onAddEvent} /> },
-      { value: Tab.ALL_EVENTS, view: <AllEvents events={events} /> },
-      { value: Tab.SETTINGS, view: <Settings initialApiKey={initialApiKey} initialSecretKey={initialSecretKey} /> },
+      { value: Tab.ALL_EVENTS, view: <AllEvents events={events} apiKey={apiKey} secretKey={secretKey} /> },
+      {
+        value: Tab.SETTINGS,
+        view: <Settings
+          apiKey={apiKey}
+          secretKey={secretKey}
+          onChangeApiKey={setApiKey}
+          onChangeSecretKey={setSecretKey} />
+      },
       { value: Tab.TUTORIAL, view: <Tutorial /> }
     ];
-  }, [initialApiKey, initialSecretKey, events, onAddEvent]);
+  }, [onAddEvent, events, apiKey, secretKey]);
 
   return (
     <Container space='medium'>
