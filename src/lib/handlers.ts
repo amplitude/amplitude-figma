@@ -99,7 +99,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.horizontalPadding = PADDING_HORIZONTAL;
   container.verticalPadding = PADDING_VERTICAL;
   container.itemSpacing = 16;
-  container.name = `Amplitude Event: ${event.name}`;
+  container.name = 'Label';
   container.layoutMode = 'VERTICAL';
 
   container.x = clientNode.x + clientNode.width + OFFSET_X;
@@ -135,8 +135,8 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.appendChild(description);
   container.appendChild(createDivider());
   container.appendChild(notes);
-  figma.currentPage.appendChild(container);
-  createBracket(clientNode);
+  const group = figma.group([container, createBracket(clientNode)], figma.currentPage);
+  group.name = `Amplitude Event: ${event.name}`;
 
   // Store label with event data and associated client node id
   container.setPluginData('eventMetadata', JSON.stringify(pluginData));
