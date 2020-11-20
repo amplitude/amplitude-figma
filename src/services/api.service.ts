@@ -16,23 +16,25 @@ export class ApiService {
       event_type: eventType,
       description,
     };
-
-    const response = await axios
-      .post(
-        TAXONOMY_ADD_EVENT_ENDPOINT,
-        qs.stringify(requestBody),
-        {
-          auth: {
-            username: apiKey,
-            password: secrectKey,
-          },
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        }
-      );
-
-    console.log('Created an event type', response);
+    try {
+      const response = await axios
+        .post(
+          TAXONOMY_ADD_EVENT_ENDPOINT,
+          qs.stringify(requestBody),
+          {
+            auth: {
+              username: apiKey,
+              password: secrectKey,
+            },
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+          }
+        );
+      console.log('Created an event type', response);
+    } catch (err) {
+      console.log('issue with creating event', err);
+    }
   }
 }

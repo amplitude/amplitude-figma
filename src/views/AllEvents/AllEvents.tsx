@@ -45,16 +45,20 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   };
 
   const onClickTaxonomyExport = async (): Promise<void> => {
-    setIsSavingTaxonomy(true);
-    await Promise.all(events.map(async (event) => {
-      return await ApiService.createEventType(
-        apiKey,
-        secretKey,
-        event.name,
-        event.description
-      );
-    }));
-    setIsSavingTaxonomy(false);
+    try {
+      setIsSavingTaxonomy(true);
+      await Promise.all(events.map(async (event) => {
+        return await ApiService.createEventType(
+          apiKey,
+          secretKey,
+          event.name,
+          event.description
+        );
+      }));
+    } finally {
+      // TODO(Kelvin) don't always say success. better messaging if it actually errored!
+      setIsSavingTaxonomy(false);
+    }
   };
 
   return (
