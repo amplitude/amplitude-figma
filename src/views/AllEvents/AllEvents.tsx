@@ -34,7 +34,14 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
   const onClickCsvExport = (): void => {
-    CsvDataService.exportToCsv('taxonomy.csv', events as any[]);
+    const eventsCsv = events.map((event) => {
+      return {
+        Event: event.name,
+        'Event Description': event.description,
+      };
+    });
+
+    CsvDataService.exportToCsv('taxonomy.csv', [...eventsCsv]);
   };
 
   const onClickTaxonomyExport = async (): Promise<void> => {
