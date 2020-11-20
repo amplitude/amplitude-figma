@@ -76,9 +76,15 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
       <Divider />
       <VerticalSpace />
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
-        <Button onClick={onClickTaxonomyExport} loading={isSavingTaxonomy}>Export to Amplitude Planner</Button>
+        <Button
+          onClick={onClickTaxonomyExport}
+          disabled={events.length === 0}
+          loading={isSavingTaxonomy}
+        >
+          Export to Amplitude Planner
+        </Button>
         <div style={{ width: '8px' }} />
-        <Button onClick={onClickCsvExport}>Export to CSV</Button>
+        <Button onClick={onClickCsvExport} disabled={events.length === 0}>Export to CSV</Button>
       </div>
       <VerticalSpace space='small' />
     </div>
