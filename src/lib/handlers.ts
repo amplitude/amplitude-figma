@@ -85,6 +85,16 @@ function createDivider(): LineNode {
   return divider;
 }
 
+function addToAmplitudeGroup(newLabel: GroupNode): void {
+  let groupedLabels = figma.currentPage.findOne(n => n.name === 'Amplitude Event Labels') as (GroupNode | null);
+  if (groupedLabels === null) {
+    groupedLabels = figma.group([newLabel], figma.currentPage);
+    groupedLabels.name = 'Amplitude Event Labels';
+  } else {
+    groupedLabels.appendChild(newLabel);
+  }
+}
+
 /**
  * Creates event label and adds it to the page
  * @param event event that label represents
@@ -136,7 +146,8 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.appendChild(createDivider());
   container.appendChild(notes);
   const group = figma.group([container, createBracket(clientNode)], figma.currentPage);
-  group.name = `Amplitude Event: ${event.name}`;
+  group.name = `${event.name}`;
+  addToAmplitudeGroup(group);
 
   // Store label with event data and associated client node id
   container.setPluginData('eventMetadata', JSON.stringify(pluginData));
