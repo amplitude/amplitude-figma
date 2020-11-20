@@ -20,17 +20,18 @@ function createPaint(r: number, g: number, b: number, opacity = 1): readonly Sol
   }];
 }
 
-const BRACKET_PADDING = 8;
+const BRACKET_PADDING = 12;
+const BRACKET_WIDTH = 16;
 
 function createBracket(node: SceneNode): VectorNode {
   const bracket = figma.createVector();
-  const maxX = 16 + BRACKET_PADDING;
+  const maxX = BRACKET_WIDTH + BRACKET_PADDING;
   const maxY = node.height + 2 * BRACKET_PADDING;
   bracket.vectorPaths = [{ windingRule: 'NONZERO', data: `M 0 ${maxY} L ${maxX} ${maxY} L ${maxX} 0 L 0 0` }];
   bracket.strokes = createPaint(0, 0.49803921580314636, 0.8235294222831726);
   bracket.strokeCap = 'NONE';
   bracket.strokeWeight = 2;
-  bracket.x = node.x + node.width - BRACKET_PADDING;
+  bracket.x = node.x + node.width - BRACKET_WIDTH;
   bracket.y = node.y - BRACKET_PADDING;
 
   return bracket;
@@ -90,6 +91,7 @@ function addToAmplitudeGroup(newLabel: GroupNode): void {
   if (groupedLabels === null) {
     groupedLabels = figma.group([newLabel], figma.currentPage);
     groupedLabels.name = 'Amplitude Event Labels';
+    figma.currentPage.setPluginData('event_group', groupedLabels.id);
   } else {
     groupedLabels.appendChild(newLabel);
   }
@@ -150,8 +152,8 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   addToAmplitudeGroup(group);
 
   // Store label with event data and associated client node id
-  container.setPluginData('eventMetadata', JSON.stringify(pluginData));
-  container.setPluginData('clientNodeId', clientNode.id);
+  group.setPluginData('eventMetadata', JSON.stringify(pluginData));
+  group.setPluginData('clientNodeId', clientNode.id);
 }
 
 export function attachHandlers(): void {

@@ -21,10 +21,15 @@ export function findLabelsForEvent(pluginData: PluginData): string[] {
 
 export function loadEvents(): EventMetadata[] {
   const events: EventMetadata[] = [];
-  figma.currentPage.children.forEach((child) => {
+  const eventGroup = figma.getNodeById(figma.currentPage.getPluginData('event_group')) as GroupNode | null;
+  console.log(eventGroup);
+  console.log('found a group, looking for whildren');
+  eventGroup?.children.forEach((child) => {
+    console.log(child);
     try {
       // Indicator that the frame belongs to us
       const potentialPluginData = child.getPluginData('eventMetadata');
+      console.log(potentialPluginData);
       if (potentialPluginData.length !== 0) {
         const pluginData = JSON.parse(potentialPluginData) as PluginData;
         const [name, trigger, description, notes] = findLabelsForEvent(pluginData);
