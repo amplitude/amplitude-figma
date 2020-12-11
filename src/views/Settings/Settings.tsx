@@ -36,7 +36,7 @@ function Settings(props: Props): JSX.Element {
       <VerticalSpace space='medium' />
       <Text bold>Secret Key </Text>
       <VerticalSpace space='extraSmall' />
-      <Textbox name="secretKey" onChange={onChange} value={secretKey} inputType="password" />
+      <Textbox name="secretKey" onChange={onChange} value={secretKey} type="password" />
       <div style={{ height: '100px' }} />
       <a
         href="https://help.amplitude.com/hc/articles/235649848-Settings#h_01EHZSMMDAXC77MH5K65DKZSHF"
