@@ -5,7 +5,7 @@ import { EventMetadata, NodeMarker } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
-const OFFSET_X = 32;
+const OFFSET_X = 24;
 const OFFSET_Y = 16;
 const PADDING_HORIZONTAL = 18;
 const PADDING_VERTICAL = 16;
