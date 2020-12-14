@@ -9,17 +9,17 @@
   "license": "MIT",
   "author": "Kelvin Lu",
   "dependencies": {
-    "@create-figma-plugin/ui": "0.0.80",
-    "@create-figma-plugin/utilities": "0.0.80",
+    "@create-figma-plugin/ui": "0.0.81",
+    "@create-figma-plugin/utilities": "0.0.81",
     "axios": "^0.21.0",
     "preact": "^10.5.7",
     "querystring": "^0.2.0"
   },
   "devDependencies": {
     "@amplitude/eslint-config-typescript": "^1.1.0",
-    "@create-figma-plugin/build": "0.0.80",
-    "@create-figma-plugin/tsconfig": "0.0.80",
-    "@figma/plugin-typings": "^1.16.1",
+    "@create-figma-plugin/build": "0.0.81",
+    "@create-figma-plugin/tsconfig": "0.0.81",
+    "@figma/plugin-typings": "^1.19.0",
     "@types/axios": "^0.14.0",
     "@typescript-eslint/eslint-plugin": "4",
     "eslint": "7",
