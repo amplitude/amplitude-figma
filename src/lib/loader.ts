@@ -22,8 +22,6 @@ export function findLabelsForEvent(pluginData: PluginData): string[] {
 export function loadEvents(): EventMetadata[] {
   const events: EventMetadata[] = [];
   const eventGroup = figma.getNodeById(figma.currentPage.getPluginData('event_group')) as GroupNode | null;
-  console.log(eventGroup);
-  console.log('found a group, looking for whildren');
   eventGroup?.children.forEach((child) => {
     console.log(child);
     try {

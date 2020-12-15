@@ -1,11 +1,11 @@
 /** @jsx h */
 import { Container, Divider, Button, VerticalSpace, Text } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
-import { CsvDataService } from 'src/services/csv.service';
-import { ApiService } from 'src/services/api.service';
+import { exportToCsv } from 'src/services/csv';
+import { createEventType, isTaxonomyEnabled } from 'src/services/taxonomy';
 
 export interface Props {
   apiKey: string,
@@ -31,8 +31,26 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
   );
 }
 
+interface TaxonomyHook {
+  isEnabled: boolean,
+  isLoading: boolean,
+}
+
+function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    isTaxonomyEnabled(apiKey, secretKey).then(setIsEnabled).finally(() => setIsLoading(false));
+  }, [apiKey, secretKey]);
+
+  return { isEnabled, isLoading };
+}
+
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
+  const { isEnabled } = useTaxonomy(apiKey, secretKey);
   const onClickCsvExport = (): void => {
     const eventsCsv = events.map((event) => {
       return {
@@ -41,14 +59,14 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
       };
     });
 
-    CsvDataService.exportToCsv('taxonomy.csv', [...eventsCsv]);
+    exportToCsv('taxonomy.csv', [...eventsCsv]);
   };
 
   const onClickTaxonomyExport = async (): Promise<void> => {
     try {
       setIsSavingTaxonomy(true);
       await Promise.all(events.map(async (event) => {
-        return await ApiService.createEventType(
+        return await createEventType(
           apiKey,
           secretKey,
           event.name,
@@ -82,7 +100,7 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
         <Button
           onClick={onClickTaxonomyExport}
-          disabled={events.length === 0}
+          disabled={!isEnabled || events.length === 0}
           loading={isSavingTaxonomy}
         >
           Export to Amplitude Planner
