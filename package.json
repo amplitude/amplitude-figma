@@ -11,6 +11,7 @@
   "dependencies": {
     "@create-figma-plugin/ui": "0.0.81",
     "@create-figma-plugin/utilities": "0.0.81",
+    "amplitude-js": "^7.3.3",
     "axios": "^0.21.0",
     "preact": "^10.5.7",
     "querystring": "^0.2.0"
