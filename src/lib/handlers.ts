@@ -5,10 +5,23 @@ import { EventMetadata, NodeMarker } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab, TAB_OPTIONS } from 'src/types/tab';
 
-const OFFSET_X = 32;
+const OFFSET_X = 24;
 const OFFSET_Y = 16;
 const PADDING_HORIZONTAL = 18;
 const PADDING_VERTICAL = 16;
+
+function addDropShadow(label: FrameNode): void {
+  const shadow: ShadowEffect = {
+    blendMode: 'NORMAL',
+    color: { r: 0, g: 0, b: 0, a: 0.35 },
+    offset: { x: 7, y: 7 },
+    radius: 4,
+    spread: 0,
+    type: 'DROP_SHADOW',
+    visible: true,
+  };
+  label.effects = [shadow];
+}
 
 function createPaint(r: number, g: number, b: number, opacity = 1): readonly SolidPaint[] {
   return [{
@@ -30,7 +43,7 @@ function createBracket(node: SceneNode): VectorNode {
   bracket.vectorPaths = [{ windingRule: 'NONZERO', data: `M 0 ${maxY} L ${maxX} ${maxY} L ${maxX} 0 L 0 0` }];
   bracket.strokes = createPaint(0, 0.49803921580314636, 0.8235294222831726);
   bracket.strokeCap = 'NONE';
-  bracket.strokeWeight = 2;
+  bracket.strokeWeight = 3;
   bracket.x = node.absoluteTransform[0][2] + node.width - BRACKET_WIDTH;
   bracket.y = node.absoluteTransform[1][2] - BRACKET_PADDING;
 
@@ -115,13 +128,14 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.itemSpacing = 16;
   container.name = 'Label';
   container.layoutMode = 'VERTICAL';
+  addDropShadow(container);
 
   // clientNode.x uses relative positioning, we need absolute
   container.x = clientNode.absoluteTransform[0][2] + clientNode.width + OFFSET_X;
   container.y = clientNode.absoluteTransform[1][2] - OFFSET_Y;
 
   container.strokes = createPaint(0, 0.49804, 0.82353);
-  container.strokeWeight = 2;
+  container.strokeWeight = 3;
 
   const pluginData: {[key: string]: string} = {};
 
@@ -151,7 +165,7 @@ async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise
   container.appendChild(description);
   container.appendChild(createDivider());
   container.appendChild(notes);
-  container.resize(250, container.height);
+  container.resize(300, container.height);
   const group = figma.group([container, createBracket(clientNode)], figma.currentPage);
   group.name = `${event.name}`;
   addToAmplitudeGroup(group);
