@@ -63,7 +63,7 @@ function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
     try {
       const responseIsEnabled = await getIsTaxonomyEnabled(apiKey, secretKey);
       setIsEnabled(responseIsEnabled);
-      amplitude.logEvent('Check if taxonomy is enabled', { isTaxonomyEnabled: responseIsEnabled });
+      amplitude.logEvent('Check if taxonomy is enabled', { 'is taxonomy enabled': responseIsEnabled });
       if (responseIsEnabled) {
         const responsePlannedEvents = await getEventTypes(apiKey, secretKey);
         setPlannedEvents(responsePlannedEvents);
