@@ -17,11 +17,13 @@ export interface Props {
 }
 
 function Settings(props: Props): JSX.Element {
+  const { apiKey, secretKey, onChangeApiKey, onChangeSecretKey } = props;
+
   useEffect(() => {
     amplitude.getInstance().init(AMPLITUDE_API_KEY);
     amplitude.getInstance().logEvent('Tab Visited: Settings');
-  });
-  const { apiKey, secretKey, onChangeApiKey, onChangeSecretKey } = props;
+  }, []);
+
   const onChange = useCallback((newState: Partial<Props>) => {
     if (newState.apiKey !== undefined) {
       onChangeApiKey(newState.apiKey);
