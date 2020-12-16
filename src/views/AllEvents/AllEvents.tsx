@@ -152,10 +152,10 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           Export to CSV
         </Button>
         <div style={{ width: '8px' }} />
-        {!isLoading && (
+        {!isLoading && isTaxonomyEnabled && (
           <Button
             onClick={onClickTaxonomyExport}
-            disabled={!isEnabled || events.length === 0}
+            disabled={events.length === 0}
             loading={isSavingTaxonomy}
           >
           Export to Amplitude Planner
