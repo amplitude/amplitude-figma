@@ -39,6 +39,7 @@ function Tutorial(): JSX.Element {
         <VerticalSpace space='large' />
         <VerticalSpace space='large' />
         <img src="https://i.ibb.co/zbvtBy0/Datamonster.jpg" />
+        <VerticalSpace space='large' />
       </div>
     </div>
   );
