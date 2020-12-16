@@ -2,7 +2,9 @@
 import { Button, Container, Divider, LoadingIndicator, VerticalSpace, Text } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
+import amplitude from 'amplitude-js';
 
+import { AMPLITUDE_API_KEY } from 'src/constants';
 import { EventMetadata } from 'src/types/event';
 import { exportToCsv } from 'src/services/csv';
 import { createEventType, getIsTaxonomyEnabled, getEventTypes, updateEventType } from 'src/services/taxonomy';
@@ -81,6 +83,10 @@ function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
 }
 
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
+  useEffect(() => {
+    amplitude.getInstance().init(AMPLITUDE_API_KEY);
+    amplitude.getInstance().logEvent('All Events Tab Visited');
+  });
   const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
   const [
     { isEnabled, isLoading, plannedEvents },

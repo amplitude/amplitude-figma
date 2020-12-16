@@ -1,9 +1,17 @@
 /** @jsx h */
 import { VerticalSpace, Text, Divider } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
+import { useEffect } from 'preact/hooks';
+import amplitude from 'amplitude-js';
+
 import { AmplitudeLogo } from 'src/assets/AmplitudeLogo';
+import { AMPLITUDE_API_KEY } from 'src/constants';
 
 function Tutorial(): JSX.Element {
+  useEffect(() => {
+    amplitude.getInstance().init(AMPLITUDE_API_KEY);
+    amplitude.getInstance().logEvent('Tutorial Tab Visited');
+  });
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

@@ -2,11 +2,13 @@
 import { Divider, Button, Inline, VerticalSpace, Text, Textbox, DropdownMenu } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
-import { useState, useCallback } from 'preact/hooks';
+import { useState, useCallback, useEffect } from 'preact/hooks';
+import amplitude from 'amplitude-js';
 
 import { CaretDown } from 'src/assets/CaretDown';
 import { EventMetadata, Trigger } from 'src/types/event';
 import { Message } from 'src/types/message';
+import { AMPLITUDE_API_KEY } from 'src/constants';
 
 export interface Props {
   onAddEvent: (event: EventMetadata) => void;
@@ -25,6 +27,10 @@ const TRIGGER_OPTIONS = [
 ];
 
 function AddEvent({ onAddEvent }: Props): JSX.Element {
+  useEffect(() => {
+    amplitude.getInstance().init(AMPLITUDE_API_KEY);
+    amplitude.getInstance().logEvent('Add Event Tab Visited');
+  });
   const [state, setState] = useState(INITIAL_STATE);
 
   const onChange = useCallback((newState: Partial<EventMetadata>) => {
