@@ -1,11 +1,11 @@
 /** @jsx h */
 import { Container, Divider, Button, VerticalSpace, Text } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { exportToCsv } from 'src/services/csv';
-import { createEventType, isTaxonomyEnabled } from 'src/services/taxonomy';
+import { createEventType, isTaxonomyEnabled, getEventTypes } from 'src/services/taxonomy';
 
 export interface Props {
   apiKey: string,
@@ -13,7 +13,12 @@ export interface Props {
   events: EventMetadata[];
 }
 
-function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
+interface RowProps {
+  event: EventMetadata,
+  isPlanned: boolean,
+}
+
+function EventsRow({ event, isPlanned }: RowProps): JSX.Element {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <VerticalSpace />
@@ -21,8 +26,11 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
         <div style={{ width: '30%' }}>
           <Text>{event.name} </Text>
         </div>
-        <div style={{ width: '70%' }}>
+        <div style={{ width: '40%' }}>
           <Text>{event.description} </Text>
+        </div>
+        <div style={{ width: '30%' }}>
+          <Text>{isPlanned ? 'Yes' : 'No'} </Text>
         </div>
       </div>
       <VerticalSpace />
@@ -31,26 +39,44 @@ function EventsRow({ event }: {event: EventMetadata}): JSX.Element {
   );
 }
 
-interface TaxonomyHook {
+type TaxonomyHook = [{
   isEnabled: boolean,
   isLoading: boolean,
-}
+  plannedEvents: string[],
+}, () => Promise<void>];
 
 function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
   const [isLoading, setIsLoading] = useState(true);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [plannedEvents, setPlannedEvents] = useState<string[]>([]);
 
-  useEffect(() => {
+  const refreshData = useCallback(async (): Promise<void> => {
     setIsLoading(true);
-    isTaxonomyEnabled(apiKey, secretKey).then(setIsEnabled).finally(() => setIsLoading(false));
+    try {
+      const responseIsEnabled = await isTaxonomyEnabled(apiKey, secretKey);
+      setIsEnabled(responseIsEnabled);
+      if (responseIsEnabled) {
+        const responsePlannedEvents = await getEventTypes(apiKey, secretKey);
+        setPlannedEvents(responsePlannedEvents);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }, [apiKey, secretKey]);
 
-  return { isEnabled, isLoading };
+  useEffect(() => {
+    // Note(Kelvin): I can't pass refresh data directly in here
+    // because useEffect requires a func that returns void or a cleanup func
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    refreshData();
+  }, [refreshData]);
+
+  return [{ isEnabled, isLoading, plannedEvents }, refreshData];
 }
 
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
-  const { isEnabled } = useTaxonomy(apiKey, secretKey);
+  const [{ isEnabled, plannedEvents }, refreshTaxonomy] = useTaxonomy(apiKey, secretKey);
   const onClickCsvExport = (): void => {
     const eventsCsv = events.map((event) => {
       return {
@@ -73,6 +99,7 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           event.description
         );
       }));
+      await refreshTaxonomy();
     } finally {
       // TODO(Kelvin) don't always say success. better messaging if it actually errored!
       setIsSavingTaxonomy(false);
@@ -87,12 +114,15 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           <div style={{ width: '30%' }}>
             <Text bold>Event Name </Text>
           </div>
-          <div style={{ width: '70%' }}>
+          <div style={{ width: '40%' }}>
             <Text bold>Description </Text>
+          </div>
+          <div style={{ width: '30%' }}>
+            <Text bold>In Taxonomy </Text>
           </div>
         </div>
         <VerticalSpace />
-        {events.map(event => <EventsRow event={event} />)}
+        {events.map(event => <EventsRow event={event} isPlanned={plannedEvents.includes(event.name)} />)}
         <VerticalSpace space="medium" />
       </Container>
       <Divider />

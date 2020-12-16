@@ -44,23 +44,23 @@
       {
         "name": "Create Event Label",
         "main": "src/entries/addEvent.ts",
-        "ui": "src/ui.tsx"
+        "ui": "src/views/ui.tsx"
       },
       {
         "name": "View or Export Events",
         "main": "src/entries/allEvents.ts",
-        "ui": "src/ui.tsx"
+        "ui": "src/views/ui.tsx"
       },
       {
         "name": "Settings",
         "main": "src/entries/settings.ts",
-        "ui": "src/ui.tsx"
+        "ui": "src/views/ui.tsx"
       },
       "-",
       {
         "name": "Tutorial",
         "main": "src/entries/tutorial.ts",
-        "ui": "src/ui.tsx"
+        "ui": "src/views/ui.tsx"
       }
     ]
   },
