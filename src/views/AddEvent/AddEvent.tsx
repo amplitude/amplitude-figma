@@ -44,7 +44,11 @@ function AddEvent({ onAddEvent }: Props): JSX.Element {
   }, []);
 
   const onClickAdd = (): void => {
-    amplitude.logEvent('Add Event button clicked');
+    amplitude.logEvent('Add Event button clicked', {
+      'has description': state.description !== '',
+      'has notes': state.notes !== '',
+      'trigger type': state.trigger,
+    });
     const event = { ...state };
     emit(Message.ADD_EVENT, event);
     onAddEvent(event);
