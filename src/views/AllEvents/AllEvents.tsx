@@ -1,11 +1,11 @@
 /** @jsx h */
-import { Container, Divider, Button, VerticalSpace, Text } from '@create-figma-plugin/ui';
+import { Button, Container, Divider, LoadingIndicator, VerticalSpace, Text } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { exportToCsv } from 'src/services/csv';
-import { createEventType, isTaxonomyEnabled, getEventTypes } from 'src/services/taxonomy';
+import { createEventType, isTaxonomyEnabled, getEventTypes, updateEventType } from 'src/services/taxonomy';
 
 export interface Props {
   apiKey: string,
@@ -15,10 +15,13 @@ export interface Props {
 
 interface RowProps {
   event: EventMetadata,
+  isLoading: boolean,
   isPlanned: boolean,
 }
 
-function EventsRow({ event, isPlanned }: RowProps): JSX.Element {
+function EventsRow(props: RowProps): JSX.Element {
+  const { event, isLoading, isPlanned } = props;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <VerticalSpace />
@@ -30,7 +33,7 @@ function EventsRow({ event, isPlanned }: RowProps): JSX.Element {
           <Text>{event.description} </Text>
         </div>
         <div style={{ width: '30%' }}>
-          <Text>{isPlanned ? 'Yes' : 'No'} </Text>
+          {isLoading ? <LoadingIndicator /> : <Text>{isPlanned ? 'Yes' : 'No'} </Text>}
         </div>
       </div>
       <VerticalSpace />
@@ -76,7 +79,10 @@ function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
 
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
-  const [{ isEnabled, plannedEvents }, refreshTaxonomy] = useTaxonomy(apiKey, secretKey);
+  const [
+    { isEnabled, isLoading, plannedEvents },
+    refreshTaxonomy
+  ] = useTaxonomy(apiKey, secretKey);
   const onClickCsvExport = (): void => {
     const eventsCsv = events.map((event) => {
       return {
@@ -92,6 +98,14 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
     try {
       setIsSavingTaxonomy(true);
       await Promise.all(events.map(async (event) => {
+        if (plannedEvents.includes(event.name)) {
+          return await updateEventType(
+            apiKey,
+            secretKey,
+            event.name,
+            event.description
+          );
+        }
         return await createEventType(
           apiKey,
           secretKey,
@@ -118,27 +132,35 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
             <Text bold>Description </Text>
           </div>
           <div style={{ width: '30%' }}>
-            <Text bold>In Taxonomy </Text>
+            <Text bold>In Schema </Text>
           </div>
         </div>
         <VerticalSpace />
-        {events.map(event => <EventsRow event={event} isPlanned={plannedEvents.includes(event.name)} />)}
+        {events.map(event =>
+          <EventsRow
+            event={event}
+            isLoading={isLoading}
+            isPlanned={plannedEvents.includes(event.name)}
+          />
+        )}
         <VerticalSpace space="medium" />
       </Container>
       <Divider />
       <VerticalSpace />
       <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
-        <Button
-          onClick={onClickTaxonomyExport}
-          disabled={!isEnabled || events.length === 0}
-          loading={isSavingTaxonomy}
-        >
-          Export to Amplitude Planner
-        </Button>
-        <div style={{ width: '8px' }} />
         <Button onClick={onClickCsvExport} disabled={events.length === 0}>
           Export to CSV
         </Button>
+        <div style={{ width: '8px' }} />
+        {!isLoading && (
+          <Button
+            onClick={onClickTaxonomyExport}
+            disabled={!isEnabled || events.length === 0}
+            loading={isSavingTaxonomy}
+          >
+          Export to Amplitude Planner
+          </Button>
+        )}
       </div>
       <VerticalSpace space='small' />
     </div>
