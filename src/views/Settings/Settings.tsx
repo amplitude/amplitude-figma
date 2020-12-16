@@ -20,7 +20,6 @@ function Settings(props: Props): JSX.Element {
   const { apiKey, secretKey, onChangeApiKey, onChangeSecretKey } = props;
 
   useEffect(() => {
-    amplitude.getInstance().init(AMPLITUDE_API_KEY);
     amplitude.getInstance().logEvent('Tab Visited: Settings');
   }, []);
 

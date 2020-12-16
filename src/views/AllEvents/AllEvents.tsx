@@ -86,7 +86,6 @@ function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
   const [isSavingTaxonomy, setIsSavingTaxonomy] = useState(false);
   useEffect(() => {
-    amplitude.getInstance().init(AMPLITUDE_API_KEY);
     amplitude.getInstance().logEvent('Tab Visited: All Events');
   });
   const [
