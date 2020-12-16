@@ -1,12 +1,14 @@
 import { render, Container, Tabs } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
+import amplitude from 'amplitude-js';
 
 import { h, JSX } from 'preact';
-import { useCallback, useMemo, useState } from 'preact/hooks';
+import { useCallback, useMemo, useState, useEffect } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { Message } from 'src/types/message';
 import { Tab } from 'src/types/tab';
+import { AMPLITUDE_API_KEY } from 'src/constants';
 
 import AddEvent from 'src/views/AddEvent/AddEvent';
 import AllEvents from 'src/views/AllEvents/AllEvents';
@@ -21,6 +23,10 @@ interface Props {
 }
 
 function Plugin (props: Props): JSX.Element {
+  useEffect(() => {
+    amplitude.getInstance().init(AMPLITUDE_API_KEY);
+    amplitude.getInstance().logEvent('Plugin Opened');
+  });
   const {
     initialTab = Tab.ADD_EVENT,
     initialEvents = [] as EventMetadata[],

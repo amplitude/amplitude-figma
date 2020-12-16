@@ -2,8 +2,10 @@
 import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
-import { useCallback } from 'preact/hooks';
+import { useCallback, useEffect } from 'preact/hooks';
+import amplitude from 'amplitude-js';
 
+import { AMPLITUDE_API_KEY } from 'src/constants';
 import { InfoIcon } from 'src/assets/InfoIcon';
 import { Message } from 'src/types/message';
 
@@ -15,6 +17,10 @@ export interface Props {
 }
 
 function Settings(props: Props): JSX.Element {
+  useEffect(() => {
+    amplitude.getInstance().init(AMPLITUDE_API_KEY);
+    amplitude.getInstance().logEvent('Tutorial Tab Visited');
+  });
   const { apiKey, secretKey, onChangeApiKey, onChangeSecretKey } = props;
   const onChange = useCallback((newState: Partial<Props>) => {
     if (newState.apiKey !== undefined) {
