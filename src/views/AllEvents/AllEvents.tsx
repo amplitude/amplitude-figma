@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'preact/hooks';
 
 import { EventMetadata } from 'src/types/event';
 import { exportToCsv } from 'src/services/csv';
-import { createEventType, isTaxonomyEnabled, getEventTypes, updateEventType } from 'src/services/taxonomy';
+import { createEventType, getIsTaxonomyEnabled, getEventTypes, updateEventType } from 'src/services/taxonomy';
 
 export interface Props {
   apiKey: string,
@@ -15,12 +15,13 @@ export interface Props {
 
 interface RowProps {
   event: EventMetadata,
+  isEnabled: boolean,
   isLoading: boolean,
   isPlanned: boolean,
 }
 
 function EventsRow(props: RowProps): JSX.Element {
-  const { event, isLoading, isPlanned } = props;
+  const { event, isEnabled, isLoading, isPlanned } = props;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -32,9 +33,11 @@ function EventsRow(props: RowProps): JSX.Element {
         <div style={{ width: '40%' }}>
           <Text>{event.description} </Text>
         </div>
-        <div style={{ width: '30%' }}>
-          {isLoading ? <LoadingIndicator /> : <Text>{isPlanned ? 'Yes' : 'No'} </Text>}
-        </div>
+        {isEnabled && (
+          <div style={{ width: '30%' }}>
+            {isLoading ? <LoadingIndicator /> : <Text>{isPlanned ? 'Yes' : 'No'} </Text>}
+          </div>
+        )}
       </div>
       <VerticalSpace />
       <Divider />
@@ -56,7 +59,7 @@ function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
   const refreshData = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     try {
-      const responseIsEnabled = await isTaxonomyEnabled(apiKey, secretKey);
+      const responseIsEnabled = await getIsTaxonomyEnabled(apiKey, secretKey);
       setIsEnabled(responseIsEnabled);
       if (responseIsEnabled) {
         const responsePlannedEvents = await getEventTypes(apiKey, secretKey);
@@ -115,7 +118,6 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
       }));
       await refreshTaxonomy();
     } finally {
-      // TODO(Kelvin) don't always say success. better messaging if it actually errored!
       setIsSavingTaxonomy(false);
     }
   };
@@ -131,14 +133,17 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           <div style={{ width: '40%' }}>
             <Text bold>Description </Text>
           </div>
-          <div style={{ width: '30%' }}>
-            <Text bold>In Schema </Text>
-          </div>
+          {isEnabled && (
+            <div style={{ width: '30%' }}>
+              <Text bold>In Schema </Text>
+            </div>
+          )}
         </div>
         <VerticalSpace />
         {events.map(event =>
           <EventsRow
             event={event}
+            isEnabled={isEnabled}
             isLoading={isLoading}
             isPlanned={plannedEvents.includes(event.name)}
           />
@@ -152,7 +157,7 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           Export to CSV
         </Button>
         <div style={{ width: '8px' }} />
-        {!isLoading && isTaxonomyEnabled && (
+        {!isLoading && isEnabled && (
           <Button
             onClick={onClickTaxonomyExport}
             disabled={events.length === 0}

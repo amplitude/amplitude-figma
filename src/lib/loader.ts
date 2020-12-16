@@ -23,11 +23,9 @@ export function loadEvents(): EventMetadata[] {
   const events: EventMetadata[] = [];
   const eventGroup = figma.getNodeById(figma.currentPage.getPluginData('event_group')) as GroupNode | null;
   eventGroup?.children.forEach((child) => {
-    console.log(child);
     try {
       // Indicator that the frame belongs to us
       const potentialPluginData = child.getPluginData('eventMetadata');
-      console.log(potentialPluginData);
       if (potentialPluginData.length !== 0) {
         const pluginData = JSON.parse(potentialPluginData) as PluginData;
         const [name, trigger, description, notes] = findLabelsForEvent(pluginData);
@@ -44,7 +42,7 @@ export function loadEvents(): EventMetadata[] {
         events.push(event);
       }
     } catch (err) {
-      console.log('caught error loading data', err);
+      return null;
     }
   });
 

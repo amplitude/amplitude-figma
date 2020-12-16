@@ -5,7 +5,7 @@ import qs from 'querystring';
 const TAXONOMY_CHECK_API = 'https://cors-anywhere.herokuapp.com/https://amplitude.com/api/2/taxonomy/enabled';
 const TAXONOMY_EVENT_API = 'https://cors-anywhere.herokuapp.com/https://amplitude.com/api/2/taxonomy/event';
 
-export const isTaxonomyEnabled = async (
+export const getIsTaxonomyEnabled = async (
   apiKey: string,
   secretKey: string,
 ): Promise<boolean> => {

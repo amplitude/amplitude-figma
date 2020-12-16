@@ -102,8 +102,6 @@ function addToAmplitudeGroup(newLabel: GroupNode): void {
  * @param clientNode associated Figma node that event is attached to
  */
 export async function createLabel(event: EventMetadata, clientNode: SceneNode): Promise<void> {
-  console.log(event);
-  console.log(figma.currentPage.selection);
   await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
 
   const container = figma.createFrame();
