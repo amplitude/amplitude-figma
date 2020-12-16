@@ -63,6 +63,7 @@ function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
     try {
       const responseIsEnabled = await getIsTaxonomyEnabled(apiKey, secretKey);
       setIsEnabled(responseIsEnabled);
+      amplitude.logEvent('Check if taxonomy is enabled', { isTaxonomyEnabled: responseIsEnabled });
       if (responseIsEnabled) {
         const responsePlannedEvents = await getEventTypes(apiKey, secretKey);
         setPlannedEvents(responsePlannedEvents);
@@ -99,11 +100,12 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
         'Event Description': event.description,
       };
     });
-
+    amplitude.logEvent('Export to CSV clicked');
     exportToCsv('taxonomy.csv', [...eventsCsv]);
   };
 
   const onClickTaxonomyExport = async (): Promise<void> => {
+    amplitude.logEvent('Export Taxonomy clicked');
     try {
       setIsSavingTaxonomy(true);
       await Promise.all(events.map(async (event) => {
