@@ -10,7 +10,7 @@ import { AMPLITUDE_API_KEY } from 'src/constants';
 function Tutorial(): JSX.Element {
   useEffect(() => {
     amplitude.getInstance().init(AMPLITUDE_API_KEY);
-    amplitude.getInstance().logEvent('Tutorial Tab Visited');
+    amplitude.getInstance().logEvent('Tab Visited: Tutorial');
   });
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
