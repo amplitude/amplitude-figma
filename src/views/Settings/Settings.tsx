@@ -19,7 +19,7 @@ export interface Props {
 function Settings(props: Props): JSX.Element {
   useEffect(() => {
     amplitude.getInstance().init(AMPLITUDE_API_KEY);
-    amplitude.getInstance().logEvent('Tutorial Tab Visited');
+    amplitude.getInstance().logEvent('Tab Visited: Settings');
   });
   const { apiKey, secretKey, onChangeApiKey, onChangeSecretKey } = props;
   const onChange = useCallback((newState: Partial<Props>) => {
