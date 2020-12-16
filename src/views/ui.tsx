@@ -23,10 +23,6 @@ interface Props {
 }
 
 function Plugin (props: Props): JSX.Element {
-  useEffect(() => {
-    amplitude.getInstance().init(AMPLITUDE_API_KEY);
-    amplitude.getInstance().logEvent('Plugin Opened');
-  });
   const {
     initialTab = Tab.ADD_EVENT,
     initialEvents = [] as EventMetadata[],
@@ -37,6 +33,11 @@ function Plugin (props: Props): JSX.Element {
   const [events, setEvents] = useState<EventMetadata[]>(initialEvents);
   const [apiKey, setApiKey] = useState<string>(initialApiKey);
   const [secretKey, setSecretKey] = useState<string>(initialSecretKey);
+
+  useEffect(() => {
+    amplitude.getInstance().init(AMPLITUDE_API_KEY);
+    amplitude.getInstance().logEvent('Plugin Opened');
+  }, []);
 
   const onAddEvent = useCallback((newEvent: EventMetadata) => {
     setEvents((oldEvents) => [...oldEvents, newEvent]);

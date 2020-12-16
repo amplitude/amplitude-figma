@@ -27,11 +27,12 @@ const TRIGGER_OPTIONS = [
 ];
 
 function AddEvent({ onAddEvent }: Props): JSX.Element {
+  const [state, setState] = useState(INITIAL_STATE);
+
   useEffect(() => {
     amplitude.getInstance().init(AMPLITUDE_API_KEY);
     amplitude.getInstance().logEvent('Tab Visited: Add Event');
-  });
-  const [state, setState] = useState(INITIAL_STATE);
+  }, []);
 
   const onChange = useCallback((newState: Partial<EventMetadata>) => {
     setState((oldState: EventMetadata): EventMetadata => {
