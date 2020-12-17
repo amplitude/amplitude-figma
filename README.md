@@ -1,6 +1,6 @@
-# amplitude-figma
+# Amplitude Figma Event Planner
 
-Personal workspace for amplitude figma
+The repository for the Amplitude Event Planner Figma Plugin
 
 ## Running the Plugin Locally
 
