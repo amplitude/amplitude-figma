@@ -37,6 +37,10 @@ function Settings(props: Props): JSX.Element {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <VerticalSpace space='medium' />
+      <Text>Provide a project’s API and Secret keys to upload your events to Amplitude’s Schema Planner. </Text>
+      <VerticalSpace space='extraSmall' />
+      <Text muted> Note: Only Orgs with the Taxonomy Add-on can plan events, enter your keys to check. </Text>
+      <VerticalSpace space='medium' />
       <Text bold>API Key</Text>
       <VerticalSpace space='extraSmall' />
       <Textbox name="apiKey" onChange={onChange} value={apiKey} />
