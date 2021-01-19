@@ -40,7 +40,7 @@
     "lint": "eslint --cache --fix"
   },
   "figma-plugin": {
-    "id": "amp-figma",
+    "id": "921207224854227439",
     "name": "Amplitude Event Planner",
     "menu": [
       {
