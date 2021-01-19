@@ -96,7 +96,9 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
     const eventsCsv = events.map((event) => {
       return {
         Event: event.name,
+        Trigger: event.trigger,
         'Event Description': event.description,
+        'Dev Notes': event.notes
       };
     });
     amplitude.logEvent('Export to CSV clicked');
