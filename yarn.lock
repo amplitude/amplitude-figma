@@ -407,6 +407,11 @@
     escape-string-regexp "^2.0.0"
     lodash.deburr "^4.1.0"
 
+"@types/amplitude-js@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-7.0.0.tgz#69570ce73c64247255bfa6e6919ad5da472baa62"
+  integrity sha512-bp2Fc/3UKlykGDLgfBYHtixawo2HU0vijvMhCfje+IALW7pedzSyoagscoEEDr6msf3Tn7VNDuZIXO/ZYTEteg==
+
 "@types/axios@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"

@@ -1,13 +1,13 @@
 /** @jsx h */
 import { Button, Container, Divider, LoadingIndicator, VerticalSpace, Text } from '@create-figma-plugin/ui';
 import { h, JSX } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import amplitude from 'amplitude-js';
 
-import { AMPLITUDE_API_KEY } from 'src/constants';
+import { useTaxonomy } from 'src/hooks/taxonomy';
 import { EventMetadata } from 'src/types/event';
 import { exportToCsv } from 'src/services/csv';
-import { createEventType, getIsTaxonomyEnabled, getEventTypes, updateEventType } from 'src/services/taxonomy';
+import { createEventType, updateEventType } from 'src/services/taxonomy';
 
 export interface Props {
   apiKey: string,
@@ -45,42 +45,6 @@ function EventsRow(props: RowProps): JSX.Element {
       <Divider />
     </div>
   );
-}
-
-type TaxonomyHook = [{
-  isEnabled: boolean,
-  isLoading: boolean,
-  plannedEvents: string[],
-}, () => Promise<void>];
-
-function useTaxonomy(apiKey: string, secretKey: string): TaxonomyHook {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [plannedEvents, setPlannedEvents] = useState<string[]>([]);
-
-  const refreshData = useCallback(async (): Promise<void> => {
-    setIsLoading(true);
-    try {
-      const responseIsEnabled = await getIsTaxonomyEnabled(apiKey, secretKey);
-      setIsEnabled(responseIsEnabled);
-      amplitude.logEvent('Check if taxonomy is enabled', { 'is taxonomy enabled': responseIsEnabled });
-      if (responseIsEnabled) {
-        const responsePlannedEvents = await getEventTypes(apiKey, secretKey);
-        setPlannedEvents(responsePlannedEvents);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, [apiKey, secretKey]);
-
-  useEffect(() => {
-    // Note(Kelvin): I can't pass refresh data directly in here
-    // because useEffect requires a func that returns void or a cleanup func
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    refreshData();
-  }, [refreshData]);
-
-  return [{ isEnabled, isLoading, plannedEvents }, refreshData];
 }
 
 function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
@@ -161,11 +125,7 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
       </Container>
       <Divider />
       <VerticalSpace />
-      <div style={{ display: 'flex', flexDirection: 'row-reverse', justifyContent: 'end', width: '100%' }}>
-        <Button onClick={onClickCsvExport} disabled={events.length === 0}>
-          Export to CSV
-        </Button>
-        <div style={{ width: '8px' }} />
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }}>
         {!isLoading && isEnabled && (
           <Button
             onClick={onClickTaxonomyExport}
@@ -175,6 +135,10 @@ function AllEvents({ events, apiKey, secretKey }: Props): JSX.Element {
           Export to Amplitude Planner
           </Button>
         )}
+        <div style={{ width: '8px' }} />
+        <Button onClick={onClickCsvExport} disabled={events.length === 0}>
+          Export to CSV
+        </Button>
       </div>
       <VerticalSpace space='small' />
     </div>

@@ -1,11 +1,10 @@
 /** @jsx h */
-import { VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
+import { Button, Divider, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
 import { h, JSX } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
 import amplitude from 'amplitude-js';
 
-import { AMPLITUDE_API_KEY } from 'src/constants';
 import { InfoIcon } from 'src/assets/InfoIcon';
 import { Message } from 'src/types/message';
 
@@ -59,6 +58,15 @@ function Settings(props: Props): JSX.Element {
         <div style={{ width: '4px' }} />
         <Text style={{ textDecoration: 'underline #007FD2', color: '#007FD2' }}>How can I find the API and Secret Keys?</Text>
       </a>
+      <VerticalSpace />
+      <Divider />
+      <VerticalSpace />
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }}>
+        <Button onClick={() => { console.log('hi'); }}>
+          Check Eligibility
+        </Button>
+      </div>
+      <VerticalSpace space='small' />
     </div>
   );
 }

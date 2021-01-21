@@ -22,6 +22,7 @@
     "@create-figma-plugin/build": "0.0.81",
     "@create-figma-plugin/tsconfig": "0.0.81",
     "@figma/plugin-typings": "^1.19.0",
+    "@types/amplitude-js": "^7.0.0",
     "@types/axios": "^0.14.0",
     "@typescript-eslint/eslint-plugin": "4",
     "eslint": "7",
