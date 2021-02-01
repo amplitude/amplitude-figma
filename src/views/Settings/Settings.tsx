@@ -53,11 +53,11 @@ function Settings(props: Props): JSX.Element {
         href="https://help.amplitude.com/hc/articles/235649848-Settings#h_01EHZSMMDAXC77MH5K65DKZSHF"
         target="_blank"
         rel="noreferrer"
-        style={{ display: 'flex', fill: '#007FD2', alignItems: 'center' }}
+        style={{ display: 'flex', fill: '#10069F', alignItems: 'center' }}
       >
         <InfoIcon />
         <div style={{ width: '4px' }} />
-        <Text style={{ textDecoration: 'underline #007FD2', color: '#007FD2' }}>How can I find the API and Secret Keys?</Text>
+        <Text style={{ textDecoration: 'underline #10069F', color: '#10069F' }}>How can I find the API and Secret Keys?</Text>
       </a>
     </div>
   );
