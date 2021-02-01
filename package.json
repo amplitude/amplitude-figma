@@ -1,13 +1,13 @@
 {
   "name": "@amplitude/figma",
-  "version": "1.0.0",
+  "version": "4",
   "keywords": [
     "create-figma-plugin",
     "figma",
     "figma-plugin"
   ],
   "license": "MIT",
-  "author": "Kelvin Lu",
+  "author": "Amplitude",
   "id": "921207224854227439",
   "dependencies": {
     "@create-figma-plugin/ui": "0.0.81",
