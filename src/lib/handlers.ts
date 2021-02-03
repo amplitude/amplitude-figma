@@ -38,4 +38,8 @@ export function attachHandlers(): void {
       figma.ui.resize(nextOptions.width, nextOptions.height);
     }
   });
+
+  on(Message.NOTIFY_MESSAGE, (message: string, durationSeconds: number | undefined = undefined) => {
+    figma.notify(message, { timeout: durationSeconds });
+  });
 }

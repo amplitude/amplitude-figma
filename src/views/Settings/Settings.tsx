@@ -1,11 +1,12 @@
 /** @jsx h */
 import { Button, Divider, VerticalSpace, Text, Textbox } from '@create-figma-plugin/ui';
 import { emit } from '@create-figma-plugin/utilities';
-import { h, JSX } from 'preact';
-import { useCallback, useEffect } from 'preact/hooks';
+import { h, JSX, } from 'preact';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 import amplitude from 'amplitude-js';
 
 import { InfoIcon } from 'src/assets/InfoIcon';
+import { getIsTaxonomyEnabled } from 'src/services/taxonomy';
 import { Message } from 'src/types/message';
 
 export interface Props {
@@ -13,6 +14,41 @@ export interface Props {
   secretKey: string;
   onChangeApiKey: (newKey: string) => void;
   onChangeSecretKey: (newKey: string) => void;
+}
+
+export interface ButtonProps {
+  apiKey: string;
+  secretKey: string;
+}
+
+function EligibilityButton(props: ButtonProps): JSX.Element {
+  const { apiKey, secretKey } = props;
+  const [hasQueried, setHasQueried] = useState(false);
+
+  useEffect(() => {
+    // when the api or secret has changed, reset state to allow button pressing
+    setHasQueried(false);
+  }, [apiKey, secretKey]);
+
+  const checkEligibility = async (): Promise<void> => {
+    try {
+      const isEligibleResponse = await getIsTaxonomyEnabled(apiKey, secretKey);
+      if (isEligibleResponse) {
+        emit(Message.NOTIFY_MESSAGE, '✔️ Your Org is eligible and has Amplitude’s Schema Planner!');
+      } else {
+        emit(Message.NOTIFY_MESSAGE, '✗ Sorry, your Org does not have Amplitude’s Taxonomy Add-on.');
+      }
+      setHasQueried(true);
+    } catch (err) {
+      figma.notify('✗ Sorry, your Org does not have Amplitude’s Taxonomy Add-on.');
+    }
+  };
+
+  return (
+    <Button onClick={checkEligibility} disabled={hasQueried}>
+        Check Eligibility
+    </Button>
+  );
 }
 
 function Settings(props: Props): JSX.Element {
@@ -62,9 +98,7 @@ function Settings(props: Props): JSX.Element {
       <Divider />
       <VerticalSpace />
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', width: '100%' }}>
-        <Button onClick={() => { console.log('hi'); }}>
-          Check Eligibility
-        </Button>
+        <EligibilityButton apiKey={apiKey} secretKey={secretKey} />
       </div>
       <VerticalSpace space='small' />
     </div>
