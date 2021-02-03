@@ -41,13 +41,6 @@ function Tutorial(): JSX.Element {
         <br />
         <Text>Note: Only Orgs with the Taxonomy Add-on can export events to Amplitude’s Schema Planner. Enter your api and secret keys in Settings to check if your Org has the add-on.</Text>
       </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <VerticalSpace space='large' />
-        <VerticalSpace space='large' />
-        <img src="https://i.ibb.co/zbvtBy0/Datamonster.jpg" />
-        <VerticalSpace space='large' />
-      </div>
     </div>
   );
 }

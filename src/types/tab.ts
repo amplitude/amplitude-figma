@@ -10,7 +10,7 @@ interface UIOption {
 }
 
 export const REGULAR_TAB_SIZE: UIOption = { width: 687, height: 400 };
-export const TUTORIAL_TAB_SIZE: UIOption = { width: 687, height: 600 };
+export const TUTORIAL_TAB_SIZE: UIOption = { width: 687, height: 475 };
 
 export const TAB_OPTIONS: { [key in Tab]: UIOption} = {
   [Tab.ADD_EVENT]: REGULAR_TAB_SIZE,
