@@ -37,9 +37,8 @@ function Tutorial(): JSX.Element {
         <VerticalSpace space='large' />
         <Text bold>Export Events</Text>
         <VerticalSpace space='medium' />
-        <Text>You can export your event labels into a CSV or directly to Amplitude’s Schema Planner. When you export to Amplitude, the events’ names and descriptions will be uploaded as “planned” events, if the event is not already being tracked, and your developers can easily view all of your planned events within Amplitude.</Text>
+        <Text>You can export your event labels into a CSV file</Text>
         <br />
-        <Text>Note: Only Orgs with the Taxonomy Add-on can export events to Amplitude’s Schema Planner. Enter your api and secret keys in Settings to check if your Org has the add-on.</Text>
       </div>
     </div>
   );

@@ -12,14 +12,11 @@ import { AMPLITUDE_API_KEY } from 'src/constants';
 
 import AddEvent from 'src/views/AddEvent/AddEvent';
 import AllEvents from 'src/views/AllEvents/AllEvents';
-import Settings from 'src/views/Settings/Settings';
 import Tutorial from 'src/views/Tutorial/Tutorial';
 
 interface Props {
   initialTab?: Tab;
   initialEvents?: EventMetadata[];
-  initialApiKey?: string;
-  initialSecretKey?: string;
 }
 
 const INITIAL_EVENT_INPUT: EventMetadata = { name: '', trigger: Trigger.ON_CLICK, description: '', notes: '' };
@@ -31,16 +28,11 @@ function Plugin (props: Props): JSX.Element {
   const {
     initialTab = Tab.ADD_EVENT,
     initialEvents = [] as EventMetadata[],
-    initialApiKey = '',
-    initialSecretKey = ''
   } = props;
   const [tab, setTab] = useState<Tab>(initialTab);
   // Inputted by the AddEvents tab
   const [events, setEvents] = useState<EventMetadata[]>(initialEvents);
   const [eventInput, setEventInput] = useState<EventMetadata>(INITIAL_EVENT_INPUT);
-  // Inputted by the Settings Tab
-  const [apiKey, setApiKey] = useState<string>(initialApiKey);
-  const [secretKey, setSecretKey] = useState<string>(initialSecretKey);
 
   useEffect(() => {
     amplitude.getInstance().init(AMPLITUDE_API_KEY);
@@ -69,18 +61,10 @@ function Plugin (props: Props): JSX.Element {
   const tabOptions = useMemo(() => {
     return [
       { value: Tab.ADD_EVENT, view: <AddEvent event={eventInput} setEvent={setEventInput} onAddEvent={onAddEvent} /> },
-      { value: Tab.ALL_EVENTS, view: <AllEvents events={events} apiKey={apiKey} secretKey={secretKey} /> },
-      {
-        value: Tab.SETTINGS,
-        view: <Settings
-          apiKey={apiKey}
-          secretKey={secretKey}
-          onChangeApiKey={setApiKey}
-          onChangeSecretKey={setSecretKey} />
-      },
+      { value: Tab.ALL_EVENTS, view: <AllEvents events={events} /> },
       { value: Tab.TUTORIAL, view: <Tutorial /> }
     ];
-  }, [eventInput, onAddEvent, events, apiKey, secretKey]);
+  }, [eventInput, onAddEvent, events]);
 
   return (
     <Container space='medium'>

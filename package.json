@@ -1,6 +1,6 @@
 {
   "name": "@amplitude/figma",
-  "version": "4",
+  "version": "5",
   "keywords": [
     "create-figma-plugin",
     "figma",
@@ -54,12 +54,6 @@
         "main": "src/entries/allEvents.ts",
         "ui": "src/views/ui.tsx"
       },
-      {
-        "name": "Settings",
-        "main": "src/entries/settings.ts",
-        "ui": "src/views/ui.tsx"
-      },
-      "-",
       {
         "name": "Tutorial",
         "main": "src/entries/tutorial.ts",
